@@ -1,9 +1,25 @@
 'use strict';
 
 const fs = require('fs').promises;
+const fsc = require('fs');
 const path = require('path');
 
 const OUTPUT_FILE = path.resolve(__dirname, '..', '..', 'src', 'config', 'discovered-patterns.json');
+
+async function atomicWriteFile(filePath, content) {
+  const tempFile = `${filePath}.tmp`;
+  await fs.writeFile(tempFile, content, 'utf-8');
+  try {
+    await fs.rename(tempFile, filePath);
+  } catch (renameErr) {
+    if (renameErr.code === 'EPERM' || renameErr.code === 'EACCES') {
+      await fs.copyFile(tempFile, filePath);
+      await fs.unlink(tempFile);
+    } else {
+      throw renameErr;
+    }
+  }
+}
 
 async function ensureOutputDirectory() {
   const dir = path.dirname(OUTPUT_FILE);
@@ -93,8 +109,8 @@ async function writePattern(platformName, domain, result) {
   };
 
   const tempFile = `${OUTPUT_FILE}.tmp`;
-  await fs.writeFile(tempFile, JSON.stringify(updatedPatterns, null, 2), 'utf-8');
-  await fs.rename(tempFile, OUTPUT_FILE);
+  const content = JSON.stringify(updatedPatterns, null, 2);
+  await atomicWriteFile(OUTPUT_FILE, content);
 
   return newEntry;
 }
@@ -110,9 +126,8 @@ async function writeAllPatterns(results) {
     updatedPatterns[platformKey] = createPlatformEntry(result.platformName, result.domain, result);
   }
 
-  const tempFile = `${OUTPUT_FILE}.tmp`;
-  await fs.writeFile(tempFile, JSON.stringify(updatedPatterns, null, 2), 'utf-8');
-  await fs.rename(tempFile, OUTPUT_FILE);
+  const content = JSON.stringify(updatedPatterns, null, 2);
+  await atomicWriteFile(OUTPUT_FILE, content);
 
   return updatedPatterns;
 }
@@ -133,24 +148,41 @@ async function deletePattern(platformName) {
 
   if (patterns[platformKey]) {
     delete patterns[platformKey];
-    const tempFile = `${OUTPUT_FILE}.tmp`;
-    await fs.writeFile(tempFile, JSON.stringify(patterns, null, 2), 'utf-8');
-    await fs.rename(tempFile, OUTPUT_FILE);
+    const content = JSON.stringify(patterns, null, 2);
+    await atomicWriteFile(OUTPUT_FILE, content);
     return true;
   }
   return false;
 }
 
+async function updatePatternEntry(platformKey, updates) {
+  const patterns = await readExistingPatterns();
+  if (patterns[platformKey]) {
+    patterns[platformKey] = { ...patterns[platformKey], ...updates };
+    const content = JSON.stringify(patterns, null, 2);
+    await atomicWriteFile(OUTPUT_FILE, content);
+    return patterns[platformKey];
+  }
+  return null;
+}
+
+async function overwriteAllPatterns(patterns) {
+  await ensureOutputDirectory();
+  const content = JSON.stringify(patterns, null, 2);
+  await atomicWriteFile(OUTPUT_FILE, content);
+}
+
 async function clearAllPatterns() {
-  const tempFile = `${OUTPUT_FILE}.tmp`;
-  await fs.writeFile(tempFile, '{}', 'utf-8');
-  await fs.rename(tempFile, OUTPUT_FILE);
+  const content = '{}';
+  await atomicWriteFile(OUTPUT_FILE, content);
 }
 
 module.exports = {
   writePattern,
   writeAllPatterns,
   readExistingPatterns,
+  updatePatternEntry,
+  overwriteAllPatterns,
   getPattern,
   listPatterns,
   deletePattern,
