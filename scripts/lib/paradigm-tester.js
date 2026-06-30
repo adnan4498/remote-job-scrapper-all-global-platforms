@@ -3,7 +3,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { URL } = require('url');
-const { REQUEST_TIMEOUT_MS, POLITE_DELAY_MS, HTTP_STATUS, SOFT_404_SELECTORS, USER_AGENTS } = require('./constants');
+const { REQUEST_TIMEOUT_MS, POLITE_DELAY_MS, HTTP_STATUS, SOFT_404_SELECTORS, USER_AGENTS, REGION_CODES, FALLBACK_REGIONS, TARGET_KEYWORD } = require('./constants');
 const { politeDelay, getRandomUserAgent } = require('./waf-detector');
 
 const PARADIGM_TEMPLATES = {
@@ -38,10 +38,6 @@ const PARADIGM_TEMPLATES = {
     'https://{domain}.co.{region}/{region}/jobs?q={keyword}'
   ]
 };
-
-const REGION_CODES = ['uk', 'gb'];
-
-const TARGET_KEYWORD = 'react';
 
 function createAxiosInstance() {
   return axios.create({
@@ -201,9 +197,10 @@ async function testParadigmVariant(axiosInstance, template, domain, region, keyw
   }
 }
 
-async function testParadigm(axiosInstance, paradigmName, templates, domain, keyword) {
+async function testParadigm(axiosInstance, paradigmName, templates, domain, keyword, regions) {
+  const regionList = regions || REGION_CODES;
   for (const template of templates) {
-    for (const region of REGION_CODES) {
+    for (const region of regionList) {
       await politeDelay(POLITE_DELAY_MS);
 
       const result = await testParadigmVariant(axiosInstance, template, domain, region, keyword, paradigmName);
@@ -250,6 +247,21 @@ async function testAllParadigms(domain, keyword = TARGET_KEYWORD) {
     }
   }
 
+  const anyPrimarySuccess = results.some(r => r.success);
+  if (!anyPrimarySuccess) {
+    for (const paradigmName of paradigmOrder) {
+      const templates = PARADIGM_TEMPLATES[paradigmName];
+      if (!templates) continue;
+
+      const result = await testParadigm(axiosInstance, paradigmName, templates, domain, keyword, FALLBACK_REGIONS);
+      results.push(result);
+
+      if (result.success) {
+        break;
+      }
+    }
+  }
+
   return results;
 }
 
@@ -261,5 +273,6 @@ module.exports = {
   buildUrlFromTemplate,
   PARADIGM_TEMPLATES,
   REGION_CODES,
+  FALLBACK_REGIONS,
   TARGET_KEYWORD
 };

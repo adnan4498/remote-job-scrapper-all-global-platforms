@@ -2,6 +2,7 @@
 
 const ISO_REGION_CODES = ['uk', 'gb'];
 const REGION_CODES = ['uk', 'gb'];
+const FALLBACK_REGIONS = ['us'];
 const TARGET_KEYWORD = 'react';
 
 const NOISE_QUERY_PARAMS = new Set([
@@ -134,6 +135,7 @@ const USER_AGENTS = [
 module.exports = {
   ISO_REGION_CODES,
   REGION_CODES,
+  FALLBACK_REGIONS,
   TARGET_KEYWORD,
   NOISE_QUERY_PARAMS,
   LOCATION_QUERY_KEYS,

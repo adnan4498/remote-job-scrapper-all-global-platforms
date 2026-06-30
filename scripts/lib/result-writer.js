@@ -35,9 +35,7 @@ function createPlatformEntry(platformName, domain, result) {
     4: 'Tier 4 (Protected)'
   };
 
-  const tier = result.wafResult?.tier || 1;
-  const tierLabel = tierLabels[tier] || 'Tier 1 (Open)';
-
+  let tier = result.wafResult?.tier || 1;
   let paradigm = 'Unknown';
   let urlPattern = null;
   let noiseVariables = [];
@@ -57,6 +55,15 @@ function createPlatformEntry(platformName, domain, result) {
     noiseVariables = [...new Set(result.dissectionResult.noiseParamsRemoved)];
   }
 
+  const statusCode = result.discoveryResult?.status || result.wafResult?.statusCode || null;
+
+  if (paradigm === 'Not Found' || statusCode == null) {
+    tier = 4;
+    urlPattern = null;
+  }
+
+  const tierLabel = tierLabels[tier] || 'Tier 1 (Open)';
+
   return {
     domain,
     tier: tierLabel,
@@ -67,7 +74,7 @@ function createPlatformEntry(platformName, domain, result) {
     validatedUrl: result.discoveryResult?.validatedUrl || null,
     finalUrl: result.discoveryResult?.finalUrl || null,
     region: result.discoveryResult?.region || null,
-    statusCode: result.discoveryResult?.status || result.wafResult?.statusCode || null
+    statusCode
   };
 }
 

@@ -7,7 +7,7 @@ const { TARGET_PLATFORMS } = require('./config/target-platforms');
 const { detectWAF, politeDelay, createAxiosInstance, getRandomUserAgent } = require('./lib/waf-detector');
 const { dissectUrl } = require('./lib/url-dissector');
 const { writePattern, writeAllPatterns } = require('./lib/result-writer');
-const { REQUEST_TIMEOUT_MS, HTTP_STATUS, TIER_LABELS, USER_AGENTS, REGION_CODES, TARGET_KEYWORD, SOFT_404_SELECTORS } = require('./lib/constants');
+const { REQUEST_TIMEOUT_MS, HTTP_STATUS, TIER_LABELS, USER_AGENTS, REGION_CODES, FALLBACK_REGIONS, TARGET_KEYWORD, SOFT_404_SELECTORS } = require('./lib/constants');
 const { PARADIGM_TEMPLATES } = require('./lib/paradigm-tester');
 
 function createTestAxiosInstance() {
@@ -170,6 +170,25 @@ async function testAllParadigms(domain) {
     console.log(`  Testing ${paradigmName}...`);
 
     for (const region of REGION_CODES) {
+      for (const template of templates) {
+        const url = template
+          .replace('{domain}', baseDomain)
+          .replace('{keyword}', TARGET_KEYWORD)
+          .replace('{region}', region);
+
+        const result = await testUrl(axiosInstance, url, paradigmName, region);
+
+        if (result.success) {
+          return [result];
+        }
+
+        await politeDelay(1500);
+      }
+    }
+  }
+
+  for (const [paradigmName, templates] of Object.entries(PARADIGM_TEMPLATES)) {
+    for (const region of FALLBACK_REGIONS) {
       for (const template of templates) {
         const url = template
           .replace('{domain}', baseDomain)
