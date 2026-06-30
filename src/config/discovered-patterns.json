@@ -1,0 +1,62 @@
+{
+  "indeed": {
+    "domain": "indeed.com",
+    "tier": "Tier 4 (Protected)",
+    "paradigm": "Subdomain Switcher",
+    "urlPattern": "https://{region}.indeed.com/q-{keyword}-jobs.html",
+    "noiseVariables": ["vjk", "__cf_chl_f_tk"],
+    "discoveredAt": "2026-06-30T00:00:00.000Z",
+    "validatedUrl": "https://uk.indeed.com/q-react-jobs.html",
+    "finalUrl": "https://uk.indeed.com/q-react-jobs.html",
+    "region": "uk",
+    "statusCode": 200
+  },
+  "careerbuilder": {
+    "domain": "careerbuilder.com",
+    "tier": "Tier 1 (Open)",
+    "paradigm": "Path Router",
+    "urlPattern": "https://careerbuilder.com/{region}/jobs?q={keyword}",
+    "noiseVariables": [],
+    "discoveredAt": "2026-06-30T00:00:00.000Z",
+    "validatedUrl": "https://careerbuilder.com/uk/jobs?q=react",
+    "finalUrl": "https://careerbuilder.com/uk/jobs?q=react",
+    "region": "uk",
+    "statusCode": 200
+  },
+  "remotive": {
+    "domain": "remotive.com",
+    "tier": "Tier 1 (Open)",
+    "paradigm": "Borderless Global",
+    "urlPattern": "https://remotive.com/jobs?q={keyword}",
+    "noiseVariables": [],
+    "discoveredAt": "2026-06-30T00:00:00.000Z",
+    "validatedUrl": "https://remotive.com/jobs?q=react",
+    "finalUrl": "https://remotive.com/jobs?q=react",
+    "region": null,
+    "statusCode": 200
+  },
+  "ziprecruiter": {
+    "domain": "ziprecruiter.com",
+    "tier": "Tier 2 (Challenged)",
+    "paradigm": "Query Parameter",
+    "urlPattern": "https://ziprecruiter.com/search?q={keyword}&location={region}",
+    "noiseVariables": ["utm_source", "utm_medium"],
+    "discoveredAt": "2026-06-30T00:00:00.000Z",
+    "validatedUrl": "https://ziprecruiter.com/search?q=react&location=uk",
+    "finalUrl": "https://ziprecruiter.com/search?q=react&location=uk",
+    "region": "uk",
+    "statusCode": 200
+  },
+  "dice": {
+    "domain": "dice.com",
+    "tier": "Tier 3 (Restricted)",
+    "paradigm": "Not Found",
+    "urlPattern": null,
+    "noiseVariables": [],
+    "discoveredAt": "2026-06-30T00:00:00.000Z",
+    "validatedUrl": null,
+    "finalUrl": null,
+    "region": null,
+    "statusCode": null
+  }
+}

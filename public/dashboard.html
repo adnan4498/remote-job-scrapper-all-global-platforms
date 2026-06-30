@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Scraper Dashboard</title>
+  <style>
+    :root {
+      --bg: #f5f6fa;
+      --surface: #ffffff;
+      --primary: #6c5ce7;
+      --primary-dark: #5a4bd1;
+      --primary-light: rgba(108, 92, 231, 0.10);
+      --visited-bg: rgba(108, 92, 231, 0.08);
+      --text: #2d3436;
+      --text-secondary: #636e72;
+      --text-muted: #b2bec3;
+      --border: #dfe6e9;
+      --radius: 8px;
+      --radius-sm: 4px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+      --transition: 150ms ease;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.3px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #f8f9fa;
+      border-color: #c0c7cd;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    .btn-danger {
+      color: #d63031;
+      border-color: #fab1a0;
+    }
+
+    .btn-danger:hover {
+      background: #ff7675;
+      color: #fff;
+      border-color: #d63031;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      padding: 12px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-value {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .stat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .stat-dot.pending { background: #b2bec3; }
+    .stat-dot.applied { background: #0984e3; }
+    .stat-dot.interviewing { background: #fdcb6e; }
+    .stat-dot.offered { background: #00b894; }
+    .stat-dot.rejected { background: #d63031; }
+    .stat-dot.archived { background: #636e72; }
+    .stat-dot.duplicate { background: #e17055; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+    }
+
+    thead {
+      background: #f8f9fa;
+    }
+
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background var(--transition);
+    }
+
+    tbody tr:hover {
+      background: #f8f9ff;
+    }
+
+    tbody tr.row-visited {
+      background: var(--visited-bg);
+    }
+
+    tbody tr.row-visited:hover {
+      background: rgba(108, 92, 231, 0.14);
+    }
+
+    tbody tr.row-visited td {
+      opacity: 0.72;
+    }
+
+    tbody tr.row-visited td:last-child {
+      opacity: 1;
+    }
+
+    .cell-no {
+      color: var(--text-muted);
+      font-size: 12px;
+      width: 40px;
+      text-align: center;
+    }
+
+    .cell-company {
+      font-weight: 600;
+      color: var(--text);
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cell-title {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cell-region {
+      color: var(--text-secondary);
+      font-size: 12px;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cell-source {
+      font-size: 11px;
+      padding: 2px 8px;
+      background: #f0f0f5;
+      border-radius: 10px;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    .row-visited .cell-source {
+      opacity: 0.7;
+    }
+
+    .cell-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 12px;
+      transition: color var(--transition);
+    }
+
+    .cell-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .row-visited .cell-link a {
+      color: #b39ddb;
+    }
+
+    select.status-select {
+      padding: 4px 28px 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: all var(--transition);
+      background: var(--surface);
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23636e72'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      min-width: 120px;
+    }
+
+    select.status-select.status-Pending { color: #636e72; border-color: #dfe6e9; }
+    select.status-select.status-Applied { color: #fff; background-color: #0984e3; border-color: #0984e3; }
+    select.status-select.status-Interviewing { color: #2d3436; background-color: #fdcb6e; border-color: #f39c12; }
+    select.status-select.status-Offered { color: #fff; background-color: #00b894; border-color: #00b894; }
+    select.status-select.status-Rejected { color: #fff; background-color: #d63031; border-color: #d63031; }
+    select.status-select.status-Archived { color: #fff; background-color: #636e72; border-color: #636e72; }
+    select.status-select.status-Duplicate { color: #fff; background-color: #e17055; border-color: #e17055; }
+
+    .cell-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .copy-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--primary);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #00b894;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 200ms ease;
+      pointer-events: none;
+    }
+
+    .copied-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state p {
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 600ms linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 16px;
+      }
+      header h1 {
+        font-size: 17px;
+      }
+      .container {
+        padding: 12px;
+      }
+      .stats-bar {
+        padding: 8px 16px;
+        gap: 10px;
+      }
+      th, td {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Job Scraper Dashboard</h1>
+    <div class="header-actions">
+      <button class="btn btn-primary" id="btn-scrape">Run Scrape Now</button>
+      <button class="btn" id="btn-refresh">Refresh</button>
+      <button class="btn btn-danger" id="btn-purge">Purge Stale Pending</button>
+    </div>
+  </header>
+
+  <div class="stats-bar" id="stats-bar">
+    <span class="stat"><span class="stat-dot pending"></span> Pending: <span class="stat-value" id="stat-pending">0</span></span>
+    <span class="stat"><span class="stat-dot applied"></span> Applied: <span class="stat-value" id="stat-applied">0</span></span>
+    <span class="stat"><span class="stat-dot interviewing"></span> Interviewing: <span class="stat-value" id="stat-interviewing">0</span></span>
+    <span class="stat"><span class="stat-dot offered"></span> Offered: <span class="stat-value" id="stat-offered">0</span></span>
+    <span class="stat"><span class="stat-dot rejected"></span> Rejected: <span class="stat-value" id="stat-rejected">0</span></span>
+    <span class="stat"><span class="stat-dot archived"></span> Archived: <span class="stat-value" id="stat-archived">0</span></span>
+    <span class="stat"><span class="stat-dot duplicate"></span> Duplicate: <span class="stat-value" id="stat-duplicate">0</span></span>
+    <span class="stat" style="margin-left:auto">Total: <span class="stat-value" id="stat-total">0</span></span>
+  </div>
+
+  <div class="container">
+    <div class="loading" id="loading"><span class="spinner"></span>Loading jobs...</div>
+    <table id="jobs-table" style="display:none">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Company</th>
+          <th>Title</th>
+          <th>Region</th>
+          <th>Source</th>
+          <th>URL</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="jobs-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="empty-state" style="display:none">
+      <h2>No jobs found</h2>
+      <p>Click "Run Scrape Now" to fetch job listings from all sources.</p>
+    </div>
+  </div>
+
+  <div class="copied-toast" id="toast">Copied to clipboard</div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var VALID_STATUSES = ['Pending', 'Applied', 'Interviewing', 'Offered', 'Rejected', 'Archived', 'Duplicate'];
+      var currentJobs = [];
+
+      var COVER_LETTER_TEMPLATE = [
+        'Subject: Application for [Job Title] at [Company Name]',
+        '',
+        'Dear Hiring Team at [Company Name],',
+        '',
+        'I am writing to express my enthusiastic interest in the [Job Title] position. With my background in software engineering and a strong track record of delivering high-quality, scalable solutions, I believe I would be a valuable addition to the team at [Company Name].',
+        '',
+        'Throughout my career, I have:',
+        '- [Key achievement or skill relevant to the role]',
+        '- [Another achievement or skill]',
+        '- [Another achievement or skill]',
+        '',
+        'I am particularly drawn to [Company Name] because of [specific reason related to the company, product, or mission].',
+        '',
+        'I would welcome the opportunity to discuss how my skills and experience align with the needs of this role. Thank you for your time and consideration.',
+        '',
+        'Best regards,',
+        '[Your Name]',
+      ].join('\n');
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      function escapeAttr(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      function showToast() {
+        var toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(function () {
+          toast.classList.remove('show');
+        }, 2000);
+      }
+
+      function computeStats(jobs) {
+        var stats = { Pending: 0, Applied: 0, Interviewing: 0, Offered: 0, Rejected: 0, Archived: 0, Duplicate: 0, total: jobs.length };
+        for (var i = 0; i < jobs.length; i++) {
+          var s = jobs[i].status;
+          if (Object.prototype.hasOwnProperty.call(stats, s)) stats[s]++;
+        }
+        return stats;
+      }
+
+      function renderStats(jobs) {
+        var stats = computeStats(jobs);
+        document.getElementById('stat-pending').textContent = stats.Pending;
+        document.getElementById('stat-applied').textContent = stats.Applied;
+        document.getElementById('stat-interviewing').textContent = stats.Interviewing;
+        document.getElementById('stat-offered').textContent = stats.Offered;
+        document.getElementById('stat-rejected').textContent = stats.Rejected;
+        document.getElementById('stat-archived').textContent = stats.Archived;
+        document.getElementById('stat-duplicate').textContent = stats.Duplicate;
+        document.getElementById('stat-total').textContent = stats.total;
+      }
+
+      function updateSelectStyle(selectEl) {
+        selectEl.className = 'status-select';
+        if (selectEl.value) {
+          selectEl.classList.add('status-' + selectEl.value);
+        }
+      }
+
+      function renderTable(jobs) {
+        currentJobs = jobs;
+
+        var tbody = document.getElementById('jobs-tbody');
+        var table = document.getElementById('jobs-table');
+        var emptyState = document.getElementById('empty-state');
+        var loading = document.getElementById('loading');
+
+        loading.style.display = 'none';
+
+        if (jobs.length === 0) {
+          table.style.display = 'none';
+          emptyState.style.display = 'block';
+          renderStats(jobs);
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        table.style.display = '';
+
+        var html = '';
+        for (var i = 0; i < jobs.length; i++) {
+          var job = jobs[i];
+          var visitedClass = job.isClicked ? ' row-visited' : '';
+          var truncatedTitle = job.title.length > 60 ? job.title.substring(0, 57) + '...' : job.title;
+          var truncatedCompany = job.company.length > 30 ? job.company.substring(0, 27) + '...' : job.company;
+
+          html += '<tr id="row-' + job._id + '" class="job-row' + visitedClass + '">';
+          html += '<td class="cell-no">' + (i + 1) + '</td>';
+          html += '<td class="cell-company" title="' + escapeAttr(job.company) + '">' + escapeHtml(truncatedCompany) + '</td>';
+          html += '<td class="cell-title" title="' + escapeAttr(job.title) + '">' + escapeHtml(truncatedTitle) + '</td>';
+          html += '<td class="cell-region">' + escapeHtml(job.region || 'Remote') + '</td>';
+          html += '<td><span class="cell-source">' + escapeHtml(job.platformSource) + '</span></td>';
+          html += '<td class="cell-link"><a href="' + escapeAttr(job.url) + '" target="_blank" rel="noopener" data-id="' + job._id + '">Open</a></td>';
+          html += '<td>';
+          html += '<select class="status-select status-' + job.status + '" data-id="' + job._id + '">';
+          for (var s = 0; s < VALID_STATUSES.length; s++) {
+            var sel = job.status === VALID_STATUSES[s] ? ' selected' : '';
+            html += '<option value="' + VALID_STATUSES[s] + '"' + sel + '>' + VALID_STATUSES[s] + '</option>';
+          }
+          html += '</select>';
+          html += '</td>';
+          html += '<td class="cell-actions">';
+          html += '<button class="copy-btn" data-company="' + escapeAttr(job.company) + '" data-title="' + escapeAttr(job.title) + '">Copy Package</button>';
+          html += '</td>';
+          html += '</tr>';
+        }
+
+        tbody.innerHTML = html;
+        renderStats(jobs);
+      }
+
+      function loadJobs() {
+        var loading = document.getElementById('loading');
+        loading.style.display = 'block';
+        document.getElementById('jobs-table').style.display = 'none';
+        document.getElementById('empty-state').style.display = 'none';
+
+        fetch('/api/jobs')
+          .then(function (resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            return resp.json();
+          })
+          .then(function (jobs) {
+            renderTable(jobs);
+          })
+          .catch(function (err) {
+            console.error('Failed to load jobs:', err);
+            loading.innerHTML = '<span style="color:#d63031">Error loading jobs. Is the server running?</span>';
+          });
+      }
+
+      function handleLinkClick(e) {
+        var target = e.target;
+        if (!target.matches('.cell-link a')) return;
+
+        e.preventDefault();
+        var id = target.getAttribute('data-id');
+        var url = target.getAttribute('href');
+
+        window.open(url, '_blank', 'noopener');
+
+        var row = document.getElementById('row-' + id);
+        if (row) row.classList.add('row-visited');
+
+        fetch('/api/jobs/' + id + '/click', { method: 'PATCH' }).catch(function (err) {
+          console.error('Click tracking failed:', err);
+        });
+      }
+
+      function handleStatusChange(e) {
+        if (!e.target.matches('.status-select')) return;
+
+        var select = e.target;
+        var id = select.getAttribute('data-id');
+        var newStatus = select.value;
+
+        updateSelectStyle(select);
+
+        fetch('/api/jobs/' + id + '/status', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus }),
+        })
+          .then(function (resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            for (var i = 0; i < currentJobs.length; i++) {
+              if (currentJobs[i]._id === id) {
+                currentJobs[i].status = newStatus;
+                break;
+              }
+            }
+            renderStats(currentJobs);
+          })
+          .catch(function (err) {
+            console.error('Status update failed:', err);
+          });
+      }
+
+      function handleCopyClick(e) {
+        if (!e.target.matches('.copy-btn')) return;
+
+        var btn = e.target;
+        var company = btn.getAttribute('data-company');
+        var title = btn.getAttribute('data-title');
+
+        var text = COVER_LETTER_TEMPLATE
+          .replace(/\[Company Name\]/g, company)
+          .replace(/\[Job Title\]/g, title);
+
+        var done = function () {
+          var originalText = btn.textContent;
+          btn.textContent = 'Copied!';
+          btn.style.background = '#00b894';
+          btn.style.color = '#fff';
+          btn.style.borderColor = '#00b894';
+          showToast();
+
+          setTimeout(function () {
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+          }, 1500);
+        };
+
+        try {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            fallbackCopy(text, done);
+          });
+        } catch (err) {
+          fallbackCopy(text, done);
+        }
+      }
+
+      function fallbackCopy(text, callback) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+        } catch (e) {
+          console.error('Fallback copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+        if (callback) callback();
+      }
+
+      document.addEventListener('click', handleLinkClick);
+      document.addEventListener('change', handleStatusChange);
+      document.addEventListener('click', handleCopyClick);
+
+      document.getElementById('btn-refresh').addEventListener('click', loadJobs);
+
+      document.getElementById('btn-scrape').addEventListener('click', function () {
+        var btn = this;
+        var originalText = btn.textContent;
+        btn.textContent = 'Scraping...';
+        btn.disabled = true;
+
+        fetch('/api/scrape', { method: 'POST' })
+          .then(function (resp) { return resp.json(); })
+          .then(function (result) {
+            console.log('Scrape result:', result);
+            loadJobs();
+          })
+          .catch(function (err) {
+            console.error('Scrape failed:', err);
+          })
+          .finally(function () {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          });
+      });
+
+      document.getElementById('btn-purge').addEventListener('click', function () {
+        if (!confirm('Purge all pending jobs older than 7 days?')) return;
+
+        var btn = this;
+        var originalText = btn.textContent;
+        btn.textContent = 'Purging...';
+        btn.disabled = true;
+
+        fetch('/api/jobs/purge', { method: 'POST' })
+          .then(function (resp) { return resp.json(); })
+          .then(function (result) {
+            console.log('Purge result:', result);
+            showToast();
+            loadJobs();
+          })
+          .catch(function (err) {
+            console.error('Purge failed:', err);
+          })
+          .finally(function () {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          });
+      });
+
+      loadJobs();
+    })();
+  </script>
+</body>
+</html>
