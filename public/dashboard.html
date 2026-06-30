@@ -327,6 +327,149 @@
       border-color: var(--primary);
     }
 
+    .log-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .log-overlay.hidden {
+      display: none;
+    }
+    .log-pane {
+      width: min(900px, 94vw);
+      max-height: 82vh;
+      background: #1a1d23;
+      border-radius: 10px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .log-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #2d3139;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .log-header h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .log-close {
+      background: none;
+      border: 1px solid #3a3f4b;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 120ms;
+      white-space: nowrap;
+    }
+    .log-close:hover {
+      background: #2d3139;
+      color: #e2e8f0;
+      border-color: #5a6170;
+    }
+    .log-aggregate {
+      padding: 12px 24px;
+      background: #21242b;
+      border-bottom: 1px solid #2d3139;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+    .log-aggregate strong {
+      color: #e2e8f0;
+    }
+    .log-entries {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.85;
+      color: #cbd5e1;
+    }
+    .log-entries::-webkit-scrollbar {
+      width: 6px;
+    }
+    .log-entries::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .log-entries::-webkit-scrollbar-thumb {
+      background: #3a3f4b;
+      border-radius: 3px;
+    }
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .log-entry.meta {
+      opacity: 0.45;
+      font-size: 11px;
+      border-bottom-style: dashed;
+    }
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .log-entry .p {
+      color: #a78bfa;
+    }
+    .log-entry .r {
+      color: #60a5fa;
+    }
+    .log-entry .c {
+      color: #34d399;
+      font-weight: 600;
+    }
+    .log-entry .k {
+      color: #fbbf24;
+    }
+    .log-empty {
+      text-align: center;
+      padding: 40px 24px;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .log-error {
+      text-align: center;
+      padding: 40px 24px;
+      color: #f87171;
+      font-size: 13px;
+    }
+    .log-loading-msg {
+      text-align: center;
+      padding: 40px 24px;
+      color: #64748b;
+    }
+    .btn-logs {
+      background: #1a1d23;
+      color: #a78bfa;
+      border-color: #3a3f4b;
+    }
+    .btn-logs:hover {
+      background: #2d3139;
+      border-color: #5a6170;
+      color: #c4b5fd;
+    }
+
     .copied-toast {
       position: fixed;
       bottom: 24px;
@@ -415,6 +558,7 @@
       <button class="btn btn-primary" id="btn-scrape">Run Scrape Now</button>
       <button class="btn" id="btn-refresh">Refresh</button>
       <button class="btn btn-danger" id="btn-purge">Purge Stale Pending</button>
+      <button class="btn btn-logs" id="btn-logs">View Test Flight Logs</button>
     </div>
   </header>
 
@@ -453,6 +597,19 @@
   </div>
 
   <div class="copied-toast" id="toast">Copied to clipboard</div>
+
+  <div class="log-overlay hidden" id="log-overlay">
+    <div class="log-pane">
+      <div class="log-header">
+        <h2 id="log-timestamp">Loading...</h2>
+        <button class="log-close" id="log-close-btn">Close</button>
+      </div>
+      <div class="log-aggregate" id="log-aggregate" style="display:none"></div>
+      <div class="log-entries" id="log-entries">
+        <div class="log-loading-msg">Loading scrape logs...</div>
+      </div>
+    </div>
+  </div>
 
   <script>
     (function () {
@@ -749,6 +906,117 @@
             btn.textContent = originalText;
             btn.disabled = false;
           });
+      });
+
+      var logBtn = document.getElementById('btn-logs');
+      var logOverlay = document.getElementById('log-overlay');
+      var logTimestamp = document.getElementById('log-timestamp');
+      var logAggregate = document.getElementById('log-aggregate');
+      var logEntries = document.getElementById('log-entries');
+      var logCloseBtn = document.getElementById('log-close-btn');
+
+      function openLogPane() {
+        logOverlay.classList.remove('hidden');
+        fetchLogs();
+      }
+
+      function closeLogPane() {
+        logOverlay.classList.add('hidden');
+      }
+
+      function formatEntry(entry) {
+        var platform = entry.platform || 'Unknown';
+        var region = entry.region && entry.region !== 'all' ? entry.region : 'global';
+        var count = typeof entry.count === 'number' ? entry.count : 0;
+        var keyword = entry.keyword || 'unknown';
+        return '<span class="p">' + escapeHtml(platform) + '</span> ' +
+               '(<span class="r">' + escapeHtml(region) + '</span>) = ' +
+               '<span class="c">' + count + '</span> jobs ' +
+               '<span class="k">' + escapeHtml(keyword) + '</span>';
+      }
+
+      function renderLogs(sessions) {
+        if (!sessions || sessions.length === 0) {
+          logTimestamp.textContent = 'No scrape logs available';
+          logAggregate.style.display = 'none';
+          logEntries.innerHTML = '<div class="log-empty">No log data yet. Run a scrape to generate telemetry.</div>';
+          return;
+        }
+
+        var latest = sessions[sessions.length - 1];
+
+        logTimestamp.textContent = latest.timestamp || 'Scrape Run';
+
+        var agg = latest.aggregate;
+        if (agg) {
+          logAggregate.style.display = 'flex';
+          logAggregate.innerHTML =
+            '<span>Platforms: <strong>' + (agg.totalPlatforms || 0) + '</strong></span>' +
+            '<span>Total Jobs: <strong>' + (agg.totalJobs || 0) + '</strong></span>' +
+            (Object.keys(agg.byRegion || {}).length > 0
+              ? '<span>Regions: <strong>' + Object.keys(agg.byRegion).join(', ') + '</strong></span>'
+              : '') +
+            (Object.keys(agg.byKeyword || {}).length > 0
+              ? '<span>Keywords: <strong>' + Object.keys(agg.byKeyword).join(', ') + '</strong></span>'
+              : '');
+        } else {
+          logAggregate.style.display = 'none';
+        }
+
+        var entries = latest.entries || [];
+        if (entries.length === 0) {
+          logEntries.innerHTML = '<div class="log-empty">No entry data in this run.</div>';
+          return;
+        }
+
+        var html = '';
+        for (var i = 0; i < entries.length; i++) {
+          var entry = entries[i];
+          var metaClass = entry.isMeta ? ' meta' : '';
+          html += '<div class="log-entry' + metaClass + '">' + formatEntry(entry) + '</div>';
+        }
+        logEntries.innerHTML = html;
+      }
+
+      function fetchLogs() {
+        logTimestamp.textContent = 'Loading...';
+        logAggregate.style.display = 'none';
+        logEntries.innerHTML = '<div class="log-loading-msg">Loading scrape logs...</div>';
+
+        fetch('/api/scrape/logs')
+          .then(function (resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            return resp.json();
+          })
+          .then(function (sessions) {
+            renderLogs(sessions);
+          })
+          .catch(function (err) {
+            console.error('Failed to load logs:', err);
+            logTimestamp.textContent = 'Error loading logs';
+            logAggregate.style.display = 'none';
+            logEntries.innerHTML = '<div class="log-error">Failed to load logs: ' + err.message + '</div>';
+          });
+      }
+
+      logBtn.addEventListener('click', function () {
+        if (logOverlay.classList.contains('hidden')) {
+          openLogPane();
+        } else {
+          closeLogPane();
+        }
+      });
+
+      logCloseBtn.addEventListener('click', closeLogPane);
+
+      logOverlay.addEventListener('click', function (e) {
+        if (e.target === logOverlay) closeLogPane();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !logOverlay.classList.contains('hidden')) {
+          closeLogPane();
+        }
       });
 
       loadJobs();

@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { fetchWithRetry } = require('./utils');
 const { atsPlatforms } = require('../../config/platforms');
+const { shouldExcludeCompany } = require('../../../scripts/lib/company-filter');
+const { logBatchEntry } = require('../../../scripts/lib/logger');
 
 const GREENHOUSE_URL = 'https://boards-api.greenhouse.io/v1/boards';
 const LEVER_URL = 'https://api.lever.co/v0/postings';
@@ -118,7 +120,12 @@ async function fetchJobs() {
   for (const company of greenhouse) {
     try {
       console.log(`[ATS] Greenhouse: Fetching ${company}...`);
-      const jobs = await fetchGreenhouseCompany(company);
+      let jobs = await fetchGreenhouseCompany(company);
+      const before = jobs.length;
+      jobs = jobs.filter(j => !shouldExcludeCompany(j.company));
+      if (jobs.length < before) {
+        console.log(`[ATS] Greenhouse/${company}: excluded ${before - jobs.length} jobs`);
+      }
       console.log(`[ATS] Greenhouse/${company}: Fetched ${jobs.length} jobs`);
       allJobs.push(...jobs);
     } catch (err) {
@@ -129,7 +136,12 @@ async function fetchJobs() {
   for (const company of lever) {
     try {
       console.log(`[ATS] Lever: Fetching ${company}...`);
-      const jobs = await fetchLeverCompany(company);
+      let jobs = await fetchLeverCompany(company);
+      const before = jobs.length;
+      jobs = jobs.filter(j => !shouldExcludeCompany(j.company));
+      if (jobs.length < before) {
+        console.log(`[ATS] Lever/${company}: excluded ${before - jobs.length} jobs`);
+      }
       console.log(`[ATS] Lever/${company}: Fetched ${jobs.length} jobs`);
       allJobs.push(...jobs);
     } catch (err) {

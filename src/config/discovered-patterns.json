@@ -297,15 +297,17 @@
   },
   "flexjobs": {
     "domain": "flexjobs.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
+    "tier": "Tier 2 (Challenged)",
+    "paradigm": "Mobile-Unlocked",
+    "urlPattern": "https://flexjobs.com",
     "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": null,
-    "finalUrl": null,
+    "discoveredAt": "2026-06-30T16:03:47.215Z",
+    "validatedUrl": "https://www.flexjobs.com/homevariant/t8",
+    "finalUrl": "https://www.flexjobs.com/homevariant/t8",
     "region": null,
-    "statusCode": 200
+    "statusCode": 200,
+    "scraperType": "Cheerio-Mobile",
+    "extractionStrategy": "Mobile-WebView"
   },
   "remoteok": {
     "domain": "remoteok.com",
@@ -471,15 +473,17 @@
   },
   "remote": {
     "domain": "remote.co",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.095Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "remotehub": {
     "domain": "remotehub.com",
@@ -593,54 +597,6 @@
     "scraperType": "Cheerio-Hydrated",
     "extractionStrategy": "JSON-LD"
   },
-  "weareprovo": {
-    "domain": "weareprovo.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "solidgigs": {
-    "domain": "solidgigs.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "problogger": {
-    "domain": "problogger.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Path Router",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": "https://problogger.com/wp-content/uploads/2012/03/search.png",
-    "finalUrl": "https://problogger.com/wp-content/uploads/2012/03/search.png",
-    "region": "uk",
-    "statusCode": null
-  },
-  "contentwritingjobs": {
-    "domain": "contentwritingjobs.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Blocked",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 200
-  },
   "remote-gigs": {
     "domain": "remote-gigs.com",
     "tier": "Tier 2 (Challenged)",
@@ -723,39 +679,31 @@
   },
   "startupjobs": {
     "domain": "startupjobs.cz",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
-  },
-  "crunchboard": {
-    "domain": "crunchboard.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "djinni": {
     "domain": "djinni.co",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.095Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 200
+    "statusCode": 200,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "cord": {
     "domain": "cord.co",
@@ -773,15 +721,17 @@
   },
   "honeypot": {
     "domain": "honeypot.io",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.095Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": null
+    "statusCode": null,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "landing": {
     "domain": "landing.jobs",
@@ -811,30 +761,6 @@
     "region": "uk",
     "statusCode": 200
   },
-  "hired": {
-    "domain": "hired.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Path Router",
-    "urlPattern": "https://hired.com/uk/jobs?q=react",
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.095Z",
-    "validatedUrl": "https://www.lhh.com/en-us/about-us/our-story",
-    "finalUrl": "https://www.lhh.com/en-us/about-us/our-story",
-    "region": "uk",
-    "statusCode": 200
-  },
-  "keyvalues": {
-    "domain": "keyvalues.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
   "turing": {
     "domain": "turing.com",
     "tier": "Tier 2 (Challenged)",
@@ -848,20 +774,6 @@
     "finalUrl": "https://www.turing.com/gb/search?q=react",
     "region": "gb",
     "statusCode": 200
-  },
-  "toptal": {
-    "domain": "toptal.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Stealth-Unlocked",
-    "urlPattern": "https://www.toptal.com",
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T13:42:35.953Z",
-    "validatedUrl": "https://www.toptal.com/",
-    "finalUrl": "https://www.toptal.com/",
-    "region": null,
-    "statusCode": 403,
-    "scraperType": "Playwright-Stealth",
-    "extractionStrategy": null
   },
   "crossover": {
     "domain": "crossover.com",
@@ -1021,18 +933,6 @@
     "region": "uk",
     "statusCode": 200
   },
-  "tdrpr": {
-    "domain": "tdrpr.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
   "techmeout": {
     "domain": "techmeout.io",
     "tier": "Tier 2 (Challenged)",
@@ -1047,74 +947,8 @@
     "region": "uk",
     "statusCode": 200
   },
-  "web3": {
-    "domain": "web3.career",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Structured-Data",
-    "urlPattern": "https://web3.career",
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T13:43:38.070Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 200,
-    "scraperType": "Cheerio-Hydrated",
-    "extractionStrategy": "JSON-LD"
-  },
-  "cryptojobslist": {
-    "domain": "cryptojobslist.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Hydrated-JSON",
-    "urlPattern": "https://cryptojobslist.com",
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T13:43:40.250Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 200,
-    "scraperType": "Cheerio-Hydrated",
-    "extractionStrategy": "JSON.parse(NEXT_DATA)"
-  },
-  "crypto": {
-    "domain": "crypto.jobs",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Structured-Data",
-    "urlPattern": "https://crypto.jobs",
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T13:43:42.772Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 200,
-    "scraperType": "Cheerio-Hydrated",
-    "extractionStrategy": "JSON-LD"
-  },
   "javascriptjobs": {
     "domain": "javascriptjobs.net",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "reactmain": {
-    "domain": "reactmain.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "reactnative": {
-    "domain": "reactnative.jobs",
     "tier": "Tier 4 (Protected)",
     "paradigm": "Not Found",
     "urlPattern": null,
@@ -1137,30 +971,6 @@
     "region": null,
     "statusCode": null
   },
-  "dotnetjobs": {
-    "domain": "dotnetjobs.net",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "csharpjobs": {
-    "domain": "csharpjobs.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Blocked",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 200
-  },
   "saasjobs": {
     "domain": "saasjobs.io",
     "tier": "Tier 4 (Protected)",
@@ -1173,43 +983,19 @@
     "region": null,
     "statusCode": 200
   },
-  "bootstrapperjobs": {
-    "domain": "bootstrapperjobs.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "djangojobs": {
-    "domain": "djangojobs.net",
+  "csharpjobs": {
+    "domain": "csharpjobs.com",
     "tier": "Tier 2 (Challenged)",
-    "paradigm": "Stealth-Unlocked",
-    "urlPattern": "https://djangojobs.net",
+    "paradigm": "Mobile-Unlocked",
+    "urlPattern": "https://csharpjobs.com",
     "noiseVariables": [],
-    "discoveredAt": "2026-06-30T13:44:30.418Z",
-    "validatedUrl": "https://djangojobs.net/",
-    "finalUrl": "https://djangojobs.net/",
+    "discoveredAt": "2026-06-30T16:04:56.683Z",
+    "validatedUrl": "https://www.hugedomains.com/domain_profile.cfm?d=csharpjobs.com",
+    "finalUrl": "https://www.hugedomains.com/domain_profile.cfm?d=csharpjobs.com",
     "region": null,
     "statusCode": 200,
-    "scraperType": "Playwright-Stealth",
-    "extractionStrategy": null
-  },
-  "devjobs": {
-    "domain": "devjobs.at",
-    "tier": "Tier 3 (Restricted)",
-    "paradigm": "Blocked",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": 429
+    "scraperType": "Cheerio-Mobile",
+    "extractionStrategy": "Mobile-WebView"
   },
   "swissdevjobs": {
     "domain": "swissdevjobs.ch",
@@ -1225,18 +1011,6 @@
     "region": "uk",
     "statusCode": 200
   },
-  "romaniadevjobs": {
-    "domain": "romaniadevjobs.at",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.096Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
   "reed": {
     "domain": "reed.co.uk",
     "tier": "Tier 1 (Open)",
@@ -1251,15 +1025,17 @@
   },
   "totaljobs": {
     "domain": "totaljobs.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.096Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "cwjobs": {
     "domain": "cwjobs.co.uk",
@@ -1289,27 +1065,31 @@
   },
   "technojobs": {
     "domain": "technojobs.co.uk",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.096Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": null
+    "statusCode": null,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "s1jobs": {
     "domain": "s1jobs.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Path Router",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.096Z",
     "validatedUrl": "https://www.s1jobs.com/jobs/gb/react/",
     "finalUrl": "https://www.s1jobs.com/jobs/gb/react/",
     "region": "gb",
-    "statusCode": null
+    "statusCode": null,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "nijobfinder": {
     "domain": "nijobfinder.co.uk",
@@ -1327,27 +1107,31 @@
   },
   "devitjobs": {
     "domain": "devitjobs.us",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.096Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "stepstone": {
     "domain": "stepstone.de",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "xing": {
     "domain": "xing.com",
@@ -1375,15 +1159,17 @@
   },
   "lesjeudis": {
     "domain": "lesjeudis.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "infojobs": {
     "domain": "infojobs.net",
@@ -1455,15 +1241,17 @@
   },
   "pracuj": {
     "domain": "pracuj.pl",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "nofluffjobs": {
     "domain": "nofluffjobs.com",
@@ -1503,30 +1291,6 @@
     "region": null,
     "statusCode": null
   },
-  "remoteuk": {
-    "domain": "remoteuk.io",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.097Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
-  "remote-europe": {
-    "domain": "remote-europe.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Not Found",
-    "urlPattern": null,
-    "noiseVariables": [],
-    "discoveredAt": "2026-06-30T12:22:22.097Z",
-    "validatedUrl": null,
-    "finalUrl": null,
-    "region": null,
-    "statusCode": null
-  },
   "rozee": {
     "domain": "rozee.pk",
     "tier": "Tier 2 (Challenged)",
@@ -1553,15 +1317,17 @@
   },
   "jobee": {
     "domain": "jobee.pk",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": null
+    "statusCode": null,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "bayt": {
     "domain": "bayt.com",
@@ -1593,27 +1359,31 @@
   },
   "naukrigulf": {
     "domain": "naukrigulf.com",
-    "tier": "Tier 2 (Challenged)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 200
+    "statusCode": 200,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "naukri": {
     "domain": "naukri.com",
-    "tier": "Tier 4 (Protected)",
-    "paradigm": "Blocked",
+    "tier": "Tier 4 (Hard Block)",
+    "paradigm": "Sniper-Staged",
     "urlPattern": null,
     "noiseVariables": [],
     "discoveredAt": "2026-06-30T12:22:22.097Z",
     "validatedUrl": null,
     "finalUrl": null,
     "region": null,
-    "statusCode": 403
+    "statusCode": 403,
+    "scraperType": "Sniper-Pending",
+    "extractionStrategy": "Mobile-Spoof-Intercept"
   },
   "monsterindia": {
     "domain": "monsterindia.com",

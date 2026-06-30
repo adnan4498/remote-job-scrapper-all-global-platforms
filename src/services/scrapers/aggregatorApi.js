@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { fetchWithRetry } = require('./utils');
 const { aggregatorConfig } = require('../../config/platforms');
+const { logBatchEntry } = require('../../../scripts/lib/logger');
+const { shouldExcludeCompany } = require('../../../scripts/lib/company-filter');
 
 const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
 const ADZUNA_API_KEY = process.env.ADZUNA_API_KEY;
@@ -141,15 +143,22 @@ async function fetchJoobleJob(keyword, region) {
 
 async function fetchRealJobs() {
   const allJobs = [];
-  const { keywords, regions } = aggregatorConfig;
+  const { keywords, regions, excludedCompanies } = aggregatorConfig;
 
   for (const region of regions) {
     for (const keyword of keywords) {
+      let regionKeywordCount = 0;
+
       if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
         try {
           const jobs = await fetchAdzunaJob(keyword, region);
           console.log(`[AGG] Adzuna ${region}/${keyword}: ${jobs.length} jobs`);
-          allJobs.push(...jobs);
+          const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+          if (filtered.length < jobs.length) {
+            console.log(`[AGG] Adzuna ${region}/${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+          }
+          allJobs.push(...filtered);
+          regionKeywordCount += filtered.length;
         } catch (err) {
           console.error(`[AGG] Adzuna ${region}/${keyword} failed: ${err.message}`);
         }
@@ -159,11 +168,18 @@ async function fetchRealJobs() {
         try {
           const jobs = await fetchJoobleJob(keyword, region);
           console.log(`[AGG] Jooble ${region}/${keyword}: ${jobs.length} jobs`);
-          allJobs.push(...jobs);
+          const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+          if (filtered.length < jobs.length) {
+            console.log(`[AGG] Jooble ${region}/${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+          }
+          allJobs.push(...filtered);
+          regionKeywordCount += filtered.length;
         } catch (err) {
           console.error(`[AGG] Jooble ${region}/${keyword} failed: ${err.message}`);
         }
       }
+
+      logBatchEntry('Adzuna/Jooble', region, keyword, regionKeywordCount);
     }
   }
 

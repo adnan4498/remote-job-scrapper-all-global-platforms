@@ -3,13 +3,24 @@ const rssFeedParser = require('./scrapers/rssFeedParser');
 const apiIngestor = require('./scrapers/apiIngestor');
 const aggregatorApi = require('./scrapers/aggregatorApi');
 const atsIngestor = require('./scrapers/atsIngestor');
+const cheerioScraper = require('./scrapers/cheerioScraper');
+const playwrightScraper = require('./scrapers/playwrightScraper');
+const protectedScraper = require('./scrapers/protectedScraper');
 const { resolveFuzzyDuplicates } = require('./dedup/llmResolver');
+const { startBatchSession, logBatchEntry, finishBatchSession } = require('../../scripts/lib/logger');
+const { shouldExcludeCompany } = require('../../scripts/lib/company-filter');
 
-const SCRAPERS = [
+const LIGHTWEIGHT_SCRAPERS = [
   { name: 'RSS Feed Parser', module: rssFeedParser },
   { name: 'API Ingestor', module: apiIngestor },
   { name: 'Aggregator API', module: aggregatorApi },
   { name: 'ATS Ingestor', module: atsIngestor },
+];
+
+const HEAVYWEIGHT_SCRAPERS = [
+  { name: 'Cheerio Scraper', module: cheerioScraper },
+  { name: 'Protected Scraper', module: protectedScraper },
+  { name: 'Playwright Scraper', module: playwrightScraper },
 ];
 
 const AUTO_DROP_THRESHOLD = 0.96;
@@ -225,15 +236,34 @@ async function applyDuplicateStatuses(duplicateIds) {
 
 async function runAllScrapers() {
   console.log('[ORCH] ===== Scraping run started =====');
+
+  startBatchSession('Full platform scraping run');
+
   const allJobs = [];
 
-  for (const scraper of SCRAPERS) {
+  for (const scraper of LIGHTWEIGHT_SCRAPERS) {
     try {
       const jobs = await scraper.module.fetchJobs();
       console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
       allJobs.push(...jobs);
+      logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
     } catch (err) {
       console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
+      logBatchEntry(scraper.name, 'error', 'all', 0, true);
+    }
+  }
+
+  console.log('[ORCH] Heavyweight scrapers starting...');
+
+  for (const scraper of HEAVYWEIGHT_SCRAPERS) {
+    try {
+      const jobs = await scraper.module.fetchJobs();
+      console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
+      allJobs.push(...jobs);
+      logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
+    } catch (err) {
+      console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
+      logBatchEntry(scraper.name, 'error', 'all', 0, true);
     }
   }
 
@@ -241,11 +271,17 @@ async function runAllScrapers() {
 
   let inserted = 0;
   let duplicates = 0;
+  let excluded = 0;
   let errors = 0;
   const candidateJobs = [];
 
   for (const job of allJobs) {
     try {
+      if (shouldExcludeCompany(job.company)) {
+        excluded++;
+        continue;
+      }
+
       if (await isDuplicate(job)) {
         duplicates++;
         continue;
@@ -275,7 +311,7 @@ async function runAllScrapers() {
   }
 
   console.log(
-    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${errors} errors`
+    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${errors} errors`
   );
 
   let llmDuplicates = 0;
@@ -303,9 +339,12 @@ async function runAllScrapers() {
   }
 
   console.log(
-    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${llmDuplicates} LLM dedup, ${errors} errors`
+    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${llmDuplicates} LLM dedup, ${errors} errors`
   );
-  return { inserted, duplicates, llmDuplicates, errors, total: allJobs.length };
+
+  finishBatchSession();
+
+  return { inserted, duplicates, excluded, llmDuplicates, errors, total: allJobs.length };
 }
 
 module.exports = { runAllScrapers };

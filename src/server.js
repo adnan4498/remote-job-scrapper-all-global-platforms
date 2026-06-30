@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./db');
 const Job = require('./models/Job');
 const { runAllScrapers } = require('./services/scraperOrchestrator');
+const { initLogger, getAllSessions } = require('../scripts/lib/logger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -125,6 +126,15 @@ app.post('/api/jobs/purge', async (_req, res, next) => {
   }
 });
 
+app.get('/api/scrape/logs', (_req, res) => {
+  try {
+    const sessions = getAllSessions();
+    res.json(sessions);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read scrape logs' });
+  }
+});
+
 app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
@@ -148,6 +158,7 @@ const cronTask = cron.schedule(
 );
 
 async function start() {
+  await initLogger();
   await connectDB();
   const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
