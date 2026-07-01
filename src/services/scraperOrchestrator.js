@@ -277,11 +277,17 @@ async function runAllScrapers() {
 
   console.log(`[ORCH] Total raw jobs collected: ${allJobs.length}`);
 
+  const allSlugs = allJobs.map(j => j.slug).filter(Boolean);
+  const existingSlugDocs = await Job.find({ slug: { $in: allSlugs } }, { slug: 1, _id: 0 }).lean();
+  const existingSlugs = new Set(existingSlugDocs.map(d => d.slug));
+  console.log(`[ORCH] Slug pre-check: ${existingSlugs.size} of ${allSlugs.length} slugs already exist in DB`);
+
   let inserted = 0;
   let duplicates = 0;
   let excluded = 0;
   let errors = 0;
   let invalid = 0;
+  let dupSkipped = 0;
   const candidateJobs = [];
   const bulkOps = [];
 
@@ -297,10 +303,17 @@ async function runAllScrapers() {
         continue;
       }
 
+      if (existingSlugs.has(job.slug)) {
+        dupSkipped++;
+        continue;
+      }
+
       if (await isDuplicate(job)) {
         duplicates++;
         continue;
       }
+
+      existingSlugs.add(job.slug);
 
       bulkOps.push({
         updateOne: {
@@ -318,7 +331,7 @@ async function runAllScrapers() {
     }
   }
 
-  console.log(`[ORCH] Pre-filter complete: ${candidateJobs.length} candidates, ${invalid} invalid, ${excluded} excluded, ${duplicates} dup-skipped`);
+  console.log(`[ORCH] Pre-filter complete: ${candidateJobs.length} candidates, ${invalid} invalid, ${excluded} excluded, ${dupSkipped} slug-skipped, ${duplicates} dup-skipped`);
 
   if (bulkOps.length > 0) {
     try {
@@ -341,15 +354,37 @@ async function runAllScrapers() {
       duplicates += bulkDups;
 
     } catch (bulkErr) {
-      console.error(`[ORCH] bulkWrite failed: ${bulkErr.message}`);
-      errors += bulkOps.length;
+      if (bulkErr.name === 'MongoBulkWriteError' && bulkErr.result) {
+        const result = bulkErr.result;
+        inserted = result.insertedCount || result.nInserted || 0;
+        const upserted = result.upsertedCount || inserted;
+        inserted = upserted;
+        const bulkDups = bulkOps.length - upserted;
+
+        if (result.upsertedIds) {
+          for (let i = 0; i < result.upsertedIds.length; i++) {
+            const key = Object.keys(result.upsertedIds[i])[0];
+            candidateJobs[i]._id = result.upsertedIds[i][key];
+          }
+        }
+
+        if (bulkErr.writeErrors) {
+          console.error(`[ORCH] bulkWrite partial failure: ${bulkErr.writeErrors.length} write errors, ${inserted} succeeded`);
+        }
+
+        console.log(`[ORCH] bulkWrite partial: ${inserted} inserted, ${bulkDups} duplicates (total attempted: ${bulkOps.length})`);
+        duplicates += bulkDups;
+      } else {
+        console.error(`[ORCH] bulkWrite failed: ${bulkErr.message}`);
+        errors += bulkOps.length;
+      }
     }
   } else {
     console.log(`[ORCH] No jobs to bulkWrite (all filtered out)`);
   }
 
   console.log(
-    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${invalid} invalid, ${errors} errors`
+    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${dupSkipped} slug-skipped, ${invalid} invalid, ${errors} errors`
   );
 
   try {
@@ -384,12 +419,12 @@ async function runAllScrapers() {
   }
 
   console.log(
-    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${invalid} invalid, ${llmDuplicates} LLM dedup, ${errors} errors`
+    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${dupSkipped} slug-skipped, ${invalid} invalid, ${llmDuplicates} LLM dedup, ${errors} errors`
   );
 
   finishBatchSession();
 
-  return { inserted, duplicates, excluded, invalid, llmDuplicates, errors, total: allJobs.length };
+  return { inserted, duplicates, excluded, dupSkipped, invalid, llmDuplicates, errors, total: allJobs.length };
 }
 
 module.exports = {

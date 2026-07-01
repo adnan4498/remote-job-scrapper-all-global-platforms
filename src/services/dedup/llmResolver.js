@@ -38,27 +38,59 @@ const SYSTEM_PROMPT = `You are an expert technical recruiter and data deduplicat
 
 For each cluster, you receive an array of job objects with fields: _id, title, company, platformSource, url, region.
 
-Rules for determining duplicates:
-1. Same company and highly similar titles with minor wording differences (e.g., "Sr. Node.js Developer" vs "Senior Node.js Engineer") → one is a DUPLICATE of the other
-2. Same company, same role but different specializations (e.g., "Frontend Developer" vs "Backend Developer") → DISTINCT, not duplicates
-3. Same company, explicitly different seniority levels (e.g., "Junior Developer" vs "Senior Developer") → DISTINCT
-4. Different companies → DISTINCT (ignore)
+CRITICAL RULES:
+- The _id field contains a 24-character hexadecimal MongoDB ObjectId (e.g., "507f1f77bcf86cd799439011"). You MUST use these exact _id values from the input payload.
+- NEVER invent, generate, or fabricate IDs. Only return _id values that appear verbatim in the provided JSON payload.
+- If two jobs are duplicates of each other, keep the first one in the cluster and add the later job's _id to duplicateIds.
+
+Duplicate detection rules:
+1. Same company and highly similar titles with minor wording → DUPLICATE
+2. Same company, same role but different specializations → DISTINCT
+3. Same company, explicitly different seniority levels → DISTINCT
+4. Different companies → DISTINCT
 5. Vague "Unknown" company names → evaluate title similarity more strictly
-6. Same title but at clearly different locations/regions → usually DISTINCT unless the region is just "Remote" and everything else matches
+6. Same title but at clearly different locations → usually DISTINCT unless region is "Remote"
 
-Return ONLY a JSON object with this exact structure: {"duplicateIds":["id1","id2"]}
-
-The duplicateIds array must contain the MongoDB _id values of the jobs that are confirmed duplicates (keep the first job in each group, flag the rest). If no duplicates are found, return {"duplicateIds":[]}. Never include explanations, only JSON.`;
+Return ONLY a JSON object: {"duplicateIds":["507f1f77bcf86cd799439011","507f191e810c19729de860ea"]}. If no duplicates, return {"duplicateIds":[]}. Never include explanations, only JSON.`;
 
 function buildClusterPayload(cluster) {
   return cluster.map((job) => ({
-    _id: job._id ? job._id.toString() : job._id,
+    _id: job._id ? job._id.toString() : '',
     title: job.title,
     company: job.company,
     platformSource: job.platformSource,
     url: job.url,
     region: job.region || 'Remote',
   }));
+}
+
+function extractValidIds(cluster) {
+  const ids = new Set();
+  for (const job of cluster) {
+    if (job._id) {
+      const idStr = job._id.toString ? job._id.toString() : String(job._id);
+      if (/^[a-f0-9]{24}$/i.test(idStr)) {
+        ids.add(idStr);
+      }
+    }
+  }
+  return ids;
+}
+
+function validateDuplicateIds(returnedIds, validIds) {
+  if (!Array.isArray(returnedIds)) return [];
+  return returnedIds.filter(id => {
+    const idStr = String(id).trim();
+    if (!/^[a-f0-9]{24}$/i.test(idStr)) {
+      console.warn(`[LLM] Rejected invalid ObjectId from model: "${idStr}"`);
+      return false;
+    }
+    if (!validIds.has(idStr)) {
+      console.warn(`[LLM] Rejected fabricated ObjectId: "${idStr}" (not in input payload)`);
+      return false;
+    }
+    return true;
+  });
 }
 
 async function resolveFuzzyDuplicates(clusters) {
@@ -83,6 +115,13 @@ async function resolveFuzzyDuplicates(clusters) {
   }
 
   console.log(`[LLM] Evaluating ${trimmedClusters.length} clusters (${trimmedClusters.reduce((a, c) => a + c.length, 0)} total jobs)...`);
+
+  const allValidIds = new Set();
+  for (const cluster of trimmedClusters) {
+    const ids = extractValidIds(cluster);
+    for (const id of ids) allValidIds.add(id);
+  }
+  console.log(`[LLM] ${allValidIds.size} valid ObjectIds extracted from payload`);
 
   const jobSummary = trimmedClusters.map((cluster, idx) =>
     `Cluster ${idx + 1}:\n${JSON.stringify(buildClusterPayload(cluster), null, 2)}`
@@ -117,14 +156,20 @@ async function resolveFuzzyDuplicates(clusters) {
     }
 
     const parsed = JSON.parse(rawContent);
-    const duplicateIds = parsed.duplicateIds || [];
+    const rawIds = parsed.duplicateIds || [];
 
-    if (!Array.isArray(duplicateIds)) {
+    if (!Array.isArray(rawIds)) {
       console.warn('[LLM] Response missing duplicateIds array:', rawContent.substring(0, 200));
       return [];
     }
 
-    console.log(`[LLM] Identified ${duplicateIds.length} duplicate job IDs`);
+    const duplicateIds = validateDuplicateIds(rawIds, allValidIds);
+
+    if (rawIds.length !== duplicateIds.length) {
+      console.warn(`[LLM] Filtered ${rawIds.length - duplicateIds.length} invalid/fabricated IDs from model response`);
+    }
+
+    console.log(`[LLM] Identified ${duplicateIds.length} valid duplicate job IDs`);
     return duplicateIds;
   } catch (err) {
     clearTimeout(timeoutId);
