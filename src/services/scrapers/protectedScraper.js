@@ -8,6 +8,9 @@ const { compileMatrixUrl } = require('../../../scripts/lib/matrix-compiler');
 const { readExistingPatterns } = require('../../../scripts/lib/result-writer');
 const { logBatchEntry } = require('../../../scripts/lib/logger');
 
+const JITTER_MIN_MS = 6000;
+const JITTER_MAX_MS = 10000;
+
 const GENERIC_SELECTORS = [
   '.job-card', '.job-listing', '.job-item',
   '[class*="job-card"]', '[class*="job-listing"]', '[class*="job-item"]',
@@ -21,12 +24,14 @@ const GENERIC_SELECTORS = [
   '[data-automation*="jobCard"]', '[data-automation*="searchResult"]'
 ];
 
-function buildSlug(title, company) {
-  return `${title} ${company}`
+function buildSlug(title, company, url) {
+  const base = `${title} ${company}`
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-    .substring(0, 200);
+    .substring(0, 160);
+  const urlHash = (url || '').trim().substring(0, 60).replace(/[^a-z0-9]+/g, '').toLowerCase();
+  return `${base}-${urlHash}`.substring(0, 200).replace(/-+$/g, '');
 }
 
 function buildJob(title, company, url, region, source) {
@@ -36,9 +41,22 @@ function buildJob(title, company, url, region, source) {
     url: (url || '').trim(),
     region: (region || 'Remote').trim().substring(0, 200),
     platformSource: source,
-    slug: buildSlug(title, company),
+    slug: buildSlug(title, company, url),
     scrapedAt: new Date()
   };
+}
+
+function randomJitter(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function extractJobsFromHtml(html, platformName, region) {
@@ -50,6 +68,7 @@ function extractJobsFromHtml(html, platformName, region) {
       const elements = $(selector);
       if (elements.length >= 1 && elements.length < 500) {
         elements.each((i, el) => {
+          if (jobs.length >= 500) return false;
           const jobEl = $(el);
           const titleEl = jobEl.find('h2, h3, h4, .title, .job-title, [class*="title"], a').first();
           const title = titleEl.text().trim() || jobEl.text().trim().substring(0, 100);
@@ -81,10 +100,11 @@ function extractJobsFromHtml(html, platformName, region) {
     const bodyText = $body.text().trim();
     if (bodyText.length > 200) {
       $('h2, h3, h4, a[href]').each((i, el) => {
-        if (jobs.length >= 40) return false;
+        if (jobs.length >= 200) return false;
         const text = $(el).text().trim();
         if (text.length >= 8 && text.length <= 120) {
-          jobs.push(buildJob(text, 'Unknown', $(el).attr('href') || '', region, `Protected (${platformName})`));
+          const link = $(el).attr('href') || '';
+          jobs.push(buildJob(text, 'Unknown', link, region, `Protected (${platformName})`));
         }
       });
     }
@@ -145,11 +165,92 @@ async function getUrlForPlatform(platformName, baseUrl, region, keyword) {
   return `https://${baseUrl}/${region}/jobs?q=${encodeURIComponent(keyword)}`;
 }
 
-async function fetchPlatform(platform) {
-  const { name, baseUrl, subdomains, scope } = platform;
-  const regions = resolveRegions(scope);
-  const { keywords } = aggregatorConfig;
+async function executeTask(platform, region, keyword, axiosInstance) {
+  const { name, baseUrl } = platform;
+  const regionLabel = region === 'global' ? 'global' : region;
+
+  try {
+    const pageUrl = await getUrlForPlatform(name, baseUrl, regionLabel, keyword);
+
+    console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}) -> ${pageUrl}`);
+
+    const response = await fetchWithRetry(
+      () => axiosInstance.get(pageUrl),
+      `Protected/${name}/${regionLabel}/${keyword}`
+    );
+
+    if (response.status === 403 || response.status === 429) {
+      console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): Blocked (${response.status})`);
+      logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
+      return [];
+    }
+
+    if (response.status !== 200) {
+      logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
+      return [];
+    }
+
+    const html = typeof response.data === 'string' ? response.data : String(response.data || '');
+
+    const blockedPatterns = [
+      /access denied/i, /blocked/i, /captcha/i, /cloudflare/i,
+      /checking your browser/i, /just a moment/i
+    ];
+
+    let isBlocked = false;
+    for (const pattern of blockedPatterns) {
+      if (pattern.test(html.substring(0, 2000))) {
+        isBlocked = true;
+        break;
+      }
+    }
+
+    if (isBlocked) {
+      console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): Soft block detected`);
+      logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
+      return [];
+    }
+
+    const jobs = extractJobsFromHtml(html, name, regionLabel);
+    logBatchEntry(`Protected (${name})`, regionLabel, keyword, jobs.length);
+    console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): ${jobs.length} jobs`);
+
+    return jobs;
+
+  } catch (err) {
+    console.error(`[PROTECTED] ${name} (${regionLabel}/${keyword}) failed: ${err.message}`);
+    logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
+    return [];
+  }
+}
+
+function buildTaskQueue(platforms, keywords, regionsResolver) {
+  const tasks = [];
+
+  for (const platform of platforms) {
+    const regions = regionsResolver(platform.scope);
+    for (const region of regions) {
+      for (const keyword of keywords) {
+        tasks.push({
+          platform,
+          region: region === 'global' ? 'global' : region,
+          keyword
+        });
+      }
+    }
+  }
+
+  return tasks;
+}
+
+async function fetchJobs() {
   const allJobs = [];
+  const { keywords } = aggregatorConfig;
+
+  const tasks = buildTaskQueue(protectedPlatforms, keywords, resolveRegions);
+  const shuffled = shuffleArray(tasks);
+
+  console.log(`[PROTECTED] ${shuffled.length} tasks across ${protectedPlatforms.length} platforms (shuffled)`);
 
   const axiosInstance = axios.create({
     timeout: 20000,
@@ -163,78 +264,24 @@ async function fetchPlatform(platform) {
     validateStatus: (s) => s < 500
   });
 
-  for (const region of regions) {
-    const regionLabel = region === 'global' ? 'global' : region;
+  for (let i = 0; i < shuffled.length; i++) {
+    const { platform, region, keyword } = shuffled[i];
+    const jobs = await executeTask(platform, region, keyword, axiosInstance);
+    allJobs.push(...jobs);
 
-    for (const keyword of keywords) {
-      try {
-        const pageUrl = await getUrlForPlatform(name, baseUrl, regionLabel, keyword);
-
-        console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}) -> ${pageUrl}`);
-
-        const response = await fetchWithRetry(
-          () => axiosInstance.get(pageUrl),
-          `Protected/${name}/${regionLabel}/${keyword}`
-        );
-
-        if (response.status === 403 || response.status === 429) {
-          console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): Blocked (${response.status})`);
-          logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
-          continue;
-        }
-
-        if (response.status !== 200) {
-          logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
-          continue;
-        }
-
-        const html = typeof response.data === 'string' ? response.data : String(response.data || '');
-
-        const blockedPatterns = [
-          /access denied/i, /blocked/i, /captcha/i, /cloudflare/i,
-          /checking your browser/i, /just a moment/i
-        ];
-
-        let isBlocked = false;
-        for (const pattern of blockedPatterns) {
-          if (pattern.test(html.substring(0, 2000))) {
-            isBlocked = true;
-            break;
-          }
-        }
-
-        if (isBlocked) {
-          console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): Soft block detected`);
-          logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
-          continue;
-        }
-
-        const jobs = extractJobsFromHtml(html, name, regionLabel);
-        allJobs.push(...jobs);
-        logBatchEntry(`Protected (${name})`, regionLabel, keyword, jobs.length);
-        console.log(`[PROTECTED] ${name} (${regionLabel}/${keyword}): ${jobs.length} jobs`);
-
-      } catch (err) {
-        console.error(`[PROTECTED] ${name} (${regionLabel}/${keyword}) failed: ${err.message}`);
-        logBatchEntry(`Protected (${name})`, regionLabel, keyword, 0);
-      }
+    if (i < shuffled.length - 1) {
+      const delay = randomJitter(JITTER_MIN_MS, JITTER_MAX_MS);
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
 
-  return allJobs;
-}
-
-async function fetchJobs() {
-  const allJobs = [];
-
-  for (const platform of protectedPlatforms) {
-    try {
-      const jobs = await fetchPlatform(platform);
-      allJobs.push(...jobs);
-      console.log(`[PROTECTED] ${platform.name} total: ${jobs.length} jobs`);
-    } catch (err) {
-      console.error(`[PROTECTED] Platform "${platform.name}" failed: ${err.message}`);
-    }
+  const perPlatform = {};
+  for (const job of allJobs) {
+    const key = job.platformSource;
+    perPlatform[key] = (perPlatform[key] || 0) + 1;
+  }
+  for (const [k, v] of Object.entries(perPlatform)) {
+    console.log(`[PROTECTED] ${k} total: ${v} jobs`);
   }
 
   console.log(`[PROTECTED] Total jobs from all protected platforms: ${allJobs.length}`);

@@ -426,9 +426,6 @@
       font-size: 11px;
       border-bottom-style: dashed;
     }
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
     .log-entry .p {
       color: #a78bfa;
     }
@@ -559,6 +556,7 @@
       <button class="btn" id="btn-refresh">Refresh</button>
       <button class="btn btn-danger" id="btn-purge">Purge Stale Pending</button>
       <button class="btn btn-logs" id="btn-logs">View Test Flight Logs</button>
+      <button class="btn" id="btn-dedup" style="color:#e17055;border-color:#fab1a0">Run Cross-Run Dedup</button>
     </div>
   </header>
 
@@ -603,6 +601,12 @@
       <div class="log-header">
         <h2 id="log-timestamp">Loading...</h2>
         <button class="log-close" id="log-close-btn">Close</button>
+      </div>
+      <div style="padding:10px 24px;background:#21242b;border-bottom:1px solid #2d3139;flex-shrink:0">
+        <label style="font-size:11px;color:#94a3b8;margin-right:8px">Select Scrape Run History:</label>
+        <select id="log-run-selector" style="padding:5px 10px;border:1px solid #3a3f4b;background:#1a1d23;color:#e2e8f0;border-radius:5px;font-size:12px;max-width:400px">
+          <option value="">No runs available</option>
+        </select>
       </div>
       <div class="log-aggregate" id="log-aggregate" style="display:none"></div>
       <div class="log-entries" id="log-entries">
@@ -908,12 +912,43 @@
           });
       });
 
+      document.getElementById('btn-dedup').addEventListener('click', function () {
+        var btn = this;
+        if (!confirm('This will scan all Pending jobs across all runs and flag duplicates. Continue?')) return;
+        var originalText = btn.textContent;
+        btn.textContent = 'Processing Duplicates...';
+        btn.disabled = true;
+
+        fetch('/api/jobs/dedup-cross-run', { method: 'POST' })
+          .then(function (resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            return resp.json();
+          })
+          .then(function (result) {
+            console.log('Dedup result:', result);
+            alert('Cross-run dedup complete!\nEvaluated: ' + result.evaluated + ' jobs\nFlagged as duplicates: ' + result.flagged);
+            showToast();
+            loadJobs();
+          })
+          .catch(function (err) {
+            console.error('Dedup failed:', err);
+            alert('Dedup failed: ' + err.message);
+          })
+          .finally(function () {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          });
+      });
+
       var logBtn = document.getElementById('btn-logs');
       var logOverlay = document.getElementById('log-overlay');
       var logTimestamp = document.getElementById('log-timestamp');
       var logAggregate = document.getElementById('log-aggregate');
       var logEntries = document.getElementById('log-entries');
       var logCloseBtn = document.getElementById('log-close-btn');
+      var logRunSelector = document.getElementById('log-run-selector');
+
+      var allRuns = [];
 
       function openLogPane() {
         logOverlay.classList.remove('hidden');
@@ -935,35 +970,27 @@
                '<span class="k">' + escapeHtml(keyword) + '</span>';
       }
 
-      function renderLogs(sessions) {
-        if (!sessions || sessions.length === 0) {
-          logTimestamp.textContent = 'No scrape logs available';
+      function renderRun(run) {
+        if (!run) {
+          logTimestamp.textContent = 'No data';
           logAggregate.style.display = 'none';
-          logEntries.innerHTML = '<div class="log-empty">No log data yet. Run a scrape to generate telemetry.</div>';
+          logEntries.innerHTML = '<div class="log-empty">No run data available.</div>';
           return;
         }
 
-        var latest = sessions[sessions.length - 1];
+        logTimestamp.textContent = 'Run #' + run.runId + ' \u2014 ' + (run.timestamp || run.shortTimestamp || '');
 
-        logTimestamp.textContent = latest.timestamp || 'Scrape Run';
+        var platformsObj = run.platforms || {};
+        var platformKeys = Object.keys(platformsObj);
+        logAggregate.style.display = 'flex';
+        logAggregate.innerHTML =
+          '<span>Total Jobs: <strong>' + (run.totalJobs || 0) + '</strong></span>' +
+          '<span>Platforms: <strong>' + platformKeys.length + '</strong></span>' +
+          (platformKeys.length > 0
+            ? '<span>Top: <strong>' + platformKeys.sort(function (a, b) { return (platformsObj[b] || 0) - (platformsObj[a] || 0); }).slice(0, 5).join(', ') + '</strong></span>'
+            : '');
 
-        var agg = latest.aggregate;
-        if (agg) {
-          logAggregate.style.display = 'flex';
-          logAggregate.innerHTML =
-            '<span>Platforms: <strong>' + (agg.totalPlatforms || 0) + '</strong></span>' +
-            '<span>Total Jobs: <strong>' + (agg.totalJobs || 0) + '</strong></span>' +
-            (Object.keys(agg.byRegion || {}).length > 0
-              ? '<span>Regions: <strong>' + Object.keys(agg.byRegion).join(', ') + '</strong></span>'
-              : '') +
-            (Object.keys(agg.byKeyword || {}).length > 0
-              ? '<span>Keywords: <strong>' + Object.keys(agg.byKeyword).join(', ') + '</strong></span>'
-              : '');
-        } else {
-          logAggregate.style.display = 'none';
-        }
-
-        var entries = latest.entries || [];
+        var entries = run.entries || [];
         if (entries.length === 0) {
           logEntries.innerHTML = '<div class="log-empty">No entry data in this run.</div>';
           return;
@@ -978,6 +1005,48 @@
         logEntries.innerHTML = html;
       }
 
+      function populateRunSelector(runs) {
+        allRuns = runs || [];
+        var options = '';
+
+        var sorted = allRuns.slice().sort(function (a, b) {
+          return new Date(b.startedAt || 0) - new Date(a.startedAt || 0);
+        });
+
+        for (var i = 0; i < sorted.length; i++) {
+          var r = sorted[i];
+          var label = 'Run #' + r.runId + ' \u2014 ' + (r.shortTimestamp || r.timestamp || '');
+          options += '<option value="' + i + '">' + label + '</option>';
+        }
+
+        if (sorted.length === 0) {
+          options = '<option value="">No runs available</option>';
+        }
+
+        logRunSelector.innerHTML = options;
+
+        if (sorted.length > 0) {
+          logRunSelector.value = '0';
+          renderRun(sorted[0]);
+        } else {
+          renderRun(null);
+        }
+      }
+
+      logRunSelector.addEventListener('change', function () {
+        var idx = parseInt(this.value, 10);
+        var sorted = allRuns.slice().sort(function (a, b) {
+          return new Date(b.startedAt || 0) - new Date(a.startedAt || 0);
+        });
+        if (idx >= 0 && idx < sorted.length) {
+          renderRun(sorted[idx]);
+        }
+      });
+
+      function renderLogs(runs) {
+        populateRunSelector(runs);
+      }
+
       function fetchLogs() {
         logTimestamp.textContent = 'Loading...';
         logAggregate.style.display = 'none';
@@ -988,8 +1057,8 @@
             if (!resp.ok) throw new Error('HTTP ' + resp.status);
             return resp.json();
           })
-          .then(function (sessions) {
-            renderLogs(sessions);
+          .then(function (runs) {
+            renderLogs(runs);
           })
           .catch(function (err) {
             console.error('Failed to load logs:', err);

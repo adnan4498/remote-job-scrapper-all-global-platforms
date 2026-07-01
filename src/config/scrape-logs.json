@@ -1,1355 +1,1014 @@
-{
-  "sessions": [
-    {
-      "timestamp": "Wednesday, July 1, 2026 — 12:43 AM",
-      "startedAt": "2026-06-30T19:43:55.302Z",
-      "finishedAt": null,
-      "description": "Full platform scraping run",
-      "entries": [
-        {
-          "platform": "RSS Feed Parser",
-          "region": "all",
-          "keyword": "all",
-          "count": 22,
-          "isMeta": true
-        },
-        {
-          "platform": "API Ingestor",
-          "region": "all",
-          "keyword": "all",
-          "count": 234,
-          "isMeta": true
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "us",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 30,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 30,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 30,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 29,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 30,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Adzuna/Jooble",
-          "region": "pk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Aggregator API",
-          "region": "all",
-          "keyword": "all",
-          "count": 649,
-          "isMeta": true
-        },
-        {
-          "platform": "ATS Ingestor",
-          "region": "all",
-          "keyword": "all",
-          "count": 428,
-          "isMeta": true
-        },
-        {
-          "platform": "Cheerio (NoDesk)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (NoDesk)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (NoDesk)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (NoDesk)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (NoDesk)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.co)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.co)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.co)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.co)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.co)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (JustRemote)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 6,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (JustRemote)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 6,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (JustRemote)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 6,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (JustRemote)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 6,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (JustRemote)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 6,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.io)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 39,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.io)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 39,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.io)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 39,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.io)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 39,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Remote.io)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 39,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Crunchboard)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Crunchboard)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Crunchboard)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Crunchboard)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Crunchboard)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (SaaSTr Job Board)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (SaaSTr Job Board)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (SaaSTr Job Board)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (SaaSTr Job Board)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (SaaSTr Job Board)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (CybersecurityJobs)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (CybersecurityJobs)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (CybersecurityJobs)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (CybersecurityJobs)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (CybersecurityJobs)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Infosec Jobs)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Infosec Jobs)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Infosec Jobs)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Infosec Jobs)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Infosec Jobs)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Cloud Computing Jobs)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Cloud Computing Jobs)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Cloud Computing Jobs)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Cloud Computing Jobs)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (Cloud Computing Jobs)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 50,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (HackerJobs)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (HackerJobs)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (HackerJobs)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (HackerJobs)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio (HackerJobs)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Cheerio Scraper",
-          "region": "all",
-          "keyword": "all",
-          "count": 1125,
-          "isMeta": true
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Indeed)",
-          "region": "pk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Glassdoor)",
-          "region": "pk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (ZipRecruiter)",
-          "region": "pk",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Wellfound)",
-          "region": "global",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Wellfound)",
-          "region": "global",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Wellfound)",
-          "region": "global",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Wellfound)",
-          "region": "global",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Wellfound)",
-          "region": "global",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Dice)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Dice)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Dice)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Dice)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Dice)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Built In)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Built In)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Built In)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Built In)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Built In)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 0,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (Monster)",
-          "region": "pk",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "us",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "us",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "us",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "us",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "us",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "uk",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "uk",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "uk",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "uk",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "uk",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "ca",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "ca",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "ca",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "ca",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "ca",
-          "keyword": ".net developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "pk",
-          "keyword": "software engineer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "pk",
-          "keyword": "full stack developer",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "pk",
-          "keyword": "react native",
-          "count": 40,
-          "isMeta": false
-        },
-        {
-          "platform": "Protected (CareerBuilder)",
-          "region": "pk",
-          "keyword": "node.js",
-          "count": 40,
-          "isMeta": false
-        }
-      ],
-      "aggregate": {
-        "totalPlatforms": 19,
-        "totalJobs": 3494,
-        "byRegion": {
-          "all": 0,
-          "us": 650,
-          "uk": 549,
-          "ca": 650,
-          "pk": 360,
-          "global": 1285
-        },
-        "byKeyword": {
-          "all": 0,
-          "software engineer": 645,
-          "full stack developer": 685,
-          "react native": 735,
-          "node.js": 734,
-          ".net developer": 695
-        }
+[
+  {
+    "runId": 1,
+    "timestamp": "Wednesday, July 1, 2026 — 3:07 PM",
+    "shortTimestamp": "7/1/2026 3:07 PM",
+    "startedAt": "2026-07-01T10:07:11.466Z",
+    "finishedAt": null,
+    "description": "Full platform scraping run",
+    "totalJobs": 2708,
+    "entries": [
+      {
+        "platform": "RSS Feed Parser",
+        "region": "all",
+        "keyword": "all",
+        "count": 50,
+        "isMeta": true
+      },
+      {
+        "platform": "API Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 131,
+        "isMeta": true
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "react",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "node js",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "react",
+        "count": 30,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 28,
+        "isMeta": false
+      },
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 158,
+        "isMeta": true
+      },
+      {
+        "platform": "ATS Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 429,
+        "isMeta": true
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "react",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "react",
+        "count": 200,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "react",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "react",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 200,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 1028,
+        "isMeta": true
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "react",
+        "count": 159,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 159,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 1010,
+        "isMeta": true
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 122,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "react",
+        "count": 1,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "react",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "react",
+        "count": 24,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 119,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 1,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 122,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 119,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 512,
+        "isMeta": true
       }
+    ],
+    "platforms": {
+      "Adzuna/Jooble": 158,
+      "Cheerio (Cloud Computing Jobs)": 106,
+      "Cheerio (HackerJobs)": 0,
+      "Cheerio (JustRemote)": 12,
+      "Cheerio (Remote.io)": 78,
+      "Cheerio (SaaSTr Job Board)": 400,
+      "Cheerio (Crunchboard)": 0,
+      "Cheerio (Infosec Jobs)": 0,
+      "Cheerio (NoDesk)": 274,
+      "Cheerio (CybersecurityJobs)": 158,
+      "Protected (Glassdoor)": 0,
+      "Protected (CareerBuilder)": 248,
+      "Protected (Monster)": 444,
+      "Protected (Indeed)": 0,
+      "Protected (ZipRecruiter)": 0,
+      "Protected (Built In)": 0,
+      "Protected (Wellfound)": 318,
+      "Protected (Dice)": 0,
+      "Playwright (PowerToFly)": 24,
+      "Playwright (Dynamite Jobs)": 244,
+      "Playwright (Pangian)": 2,
+      "Playwright (Remote.co)": 0,
+      "Playwright (Techstars Job List)": 4,
+      "Playwright (Y Combinator Jobs)": 238
     }
-  ]
-}
+  },
+  {
+    "runId": 2,
+    "timestamp": "Wednesday, July 1, 2026 — 6:16 PM",
+    "shortTimestamp": "7/1/2026 6:16 PM",
+    "startedAt": "2026-07-01T13:16:04.673Z",
+    "finishedAt": "2026-07-01T13:32:03.869Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 2379,
+    "entries": [
+      {
+        "platform": "RSS Feed Parser",
+        "region": "all",
+        "keyword": "all",
+        "count": 50,
+        "isMeta": true
+      },
+      {
+        "platform": "API Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 231,
+        "isMeta": true
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "react",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "node js",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "react",
+        "count": 30,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 28,
+        "isMeta": false
+      },
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 158,
+        "isMeta": true
+      },
+      {
+        "platform": "ATS Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 428,
+        "isMeta": true
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 200,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "react",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "react",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "react",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 828,
+        "isMeta": true
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "react",
+        "count": 159,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 851,
+        "isMeta": true
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 112,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "react",
+        "count": 38,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 119,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 119,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 112,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 38,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "react",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 542,
+        "isMeta": true
+      }
+    ],
+    "platforms": {
+      "Adzuna/Jooble": 158,
+      "Cheerio (Cloud Computing Jobs)": 106,
+      "Cheerio (Crunchboard)": 0,
+      "Cheerio (SaaSTr Job Board)": 200,
+      "Cheerio (Infosec Jobs)": 0,
+      "Cheerio (JustRemote)": 12,
+      "Cheerio (CybersecurityJobs)": 158,
+      "Cheerio (Remote.io)": 78,
+      "Cheerio (NoDesk)": 274,
+      "Cheerio (HackerJobs)": 0,
+      "Protected (Glassdoor)": 0,
+      "Protected (Dice)": 0,
+      "Protected (Monster)": 444,
+      "Protected (CareerBuilder)": 248,
+      "Protected (Indeed)": 0,
+      "Protected (Wellfound)": 159,
+      "Protected (ZipRecruiter)": 0,
+      "Protected (Built In)": 0,
+      "Playwright (Remote.co)": 0,
+      "Playwright (Dynamite Jobs)": 224,
+      "Playwright (Techstars Job List)": 4,
+      "Playwright (Pangian)": 0,
+      "Playwright (PowerToFly)": 76,
+      "Playwright (Y Combinator Jobs)": 238
+    }
+  }
+]

@@ -39,7 +39,6 @@ const feedPlatforms = [
 
 const cheerioPlatforms = [
   { name: 'NoDesk', url: 'https://nodesk.co', scope: 'global' },
-  { name: 'Remote.co', url: 'https://remote.co/remote-jobs/developer/', scope: 'global' },
   { name: 'JustRemote', url: 'https://justremote.co/remote-developer-jobs', scope: 'global' },
   { name: 'Remote.io', url: 'https://www.remote.io/remote-developer-jobs', scope: 'global' },
   { name: 'Crunchboard', url: 'https://www.crunchboard.com', scope: 'global' },
@@ -51,6 +50,7 @@ const cheerioPlatforms = [
 ];
 
 const playwrightPlatforms = [
+  { name: 'Remote.co', url: 'https://remote.co/remote-jobs/developer/', scope: 'global' },
   { name: 'Pangian', url: 'https://pangian.com', scope: 'global' },
   { name: 'PowerToFly', url: 'https://powertofly.com', scope: 'global' },
   { name: 'Dynamite Jobs', url: 'https://dynamitejobs.com', scope: 'global' },
@@ -76,13 +76,10 @@ const atsPlatforms = {
 
 const aggregatorConfig = {
   keywords: [
-    'software engineer',
-    'full stack developer',
-    'react native',
-    'node.js',
-    '.net developer',
+    'react',
+    'node js',
   ],
-  regions: ['us', 'uk', 'ca', 'pk'],
+  regions: ['us', 'uk'],
   excludedCompanies: ['twilio', 'stripe', 'gitlab', 'microsoft', 'google', 'amazon', 'meta', 'apple'],
 };
 

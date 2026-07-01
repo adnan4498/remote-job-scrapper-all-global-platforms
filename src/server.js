@@ -8,6 +8,8 @@ const connectDB = require('./db');
 const Job = require('./models/Job');
 const { runAllScrapers } = require('./services/scraperOrchestrator');
 const { initLogger, getAllSessions } = require('../scripts/lib/logger');
+const { normalizeCompanyName } = require('../scripts/lib/company-filter');
+const { titleSimilarity, groupByCompany } = require('./services/scraperOrchestrator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -52,7 +54,9 @@ app.get('/api/jobs', async (req, res, next) => {
       }
       filter.status = req.query.status;
     }
+    const total = await Job.countDocuments({});
     const jobs = await Job.find(filter).sort({ scrapedAt: -1 }).lean();
+    console.log(`[API] GET /api/jobs → ${jobs.length} jobs returned (DB total: ${total})`);
     res.json(jobs);
   } catch (err) {
     next(err);
@@ -132,6 +136,63 @@ app.get('/api/scrape/logs', (_req, res) => {
     res.json(sessions);
   } catch (err) {
     res.status(500).json({ error: 'Failed to read scrape logs' });
+  }
+});
+
+app.post('/api/jobs/dedup-cross-run', async (_req, res, next) => {
+  try {
+    console.log('[API] Cross-run dedup started');
+    const pendingJobs = await Job.find({ status: 'Pending' }).lean();
+    console.log(`[API] Fetched ${pendingJobs.length} Pending jobs for cross-run dedup`);
+
+    if (pendingJobs.length < 2) {
+      return res.json({ evaluated: pendingJobs.length, flagged: 0, message: 'Not enough pending jobs to deduplicate' });
+    }
+
+    const companyGroups = groupByCompany(pendingJobs);
+    const flaggedIds = [];
+
+    for (const group of companyGroups) {
+      if (group.length < 2) continue;
+
+      for (let i = 0; i < group.length; i++) {
+        for (let j = i + 1; j < group.length; j++) {
+          const sim = titleSimilarity(group[i].title, group[j].title);
+          if (sim >= 0.96) {
+            const later = group[i].scrapedAt > group[j].scrapedAt ? group[i] : group[j];
+            if (!flaggedIds.includes(later._id.toString())) {
+              flaggedIds.push(later._id.toString());
+            }
+          }
+        }
+      }
+    }
+
+    console.log(`[API] Similarity pass: ${flaggedIds.length} duplicate IDs found`);
+
+    let flagged = 0;
+    if (flaggedIds.length > 0) {
+      const bulkOps = flaggedIds.map(id => ({
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { status: 'Duplicate' } }
+        }
+      }));
+
+      const result = await Job.bulkWrite(bulkOps, { ordered: false });
+      flagged = result.modifiedCount || 0;
+      console.log(`[API] Cross-run dedup bulkWrite: ${flagged} marked Duplicate`);
+    }
+
+    res.json({
+      evaluated: pendingJobs.length,
+      flagged,
+      message: `Evaluated ${pendingJobs.length} jobs, flagged ${flagged} as duplicates`
+    });
+
+  } catch (err) {
+    console.error(`[API] Cross-run dedup failed: ${err.message}`);
+    next(err);
   }
 });
 

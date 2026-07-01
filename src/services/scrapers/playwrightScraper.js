@@ -5,13 +5,17 @@ const { playwrightPlatforms, aggregatorConfig } = require('../../config/platform
 const { logBatchEntry } = require('../../../scripts/lib/logger');
 
 const CONCURRENCY_LIMIT = 3;
+const JITTER_MIN_MS = 6000;
+const JITTER_MAX_MS = 10000;
 
-function buildSlug(title, company) {
-  return `${title} ${company}`
+function buildSlug(title, company, url) {
+  const base = `${title} ${company}`
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-    .substring(0, 200);
+    .substring(0, 160);
+  const urlHash = (url || '').trim().substring(0, 60).replace(/[^a-z0-9]+/g, '').toLowerCase();
+  return `${base}-${urlHash}`.substring(0, 200).replace(/-+$/g, '');
 }
 
 function buildJob(title, company, url, region, source) {
@@ -21,9 +25,22 @@ function buildJob(title, company, url, region, source) {
     url: (url || '').trim(),
     region: (region || 'Remote').trim().substring(0, 200),
     platformSource: source,
-    slug: buildSlug(title, company),
+    slug: buildSlug(title, company, url),
     scrapedAt: new Date()
   };
+}
+
+function randomJitter(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function extractJobsFromHtml(html, platformName, region) {
@@ -48,6 +65,7 @@ function extractJobsFromHtml(html, platformName, region) {
       const elements = $(selector);
       if (elements.length >= 1 && elements.length < 500) {
         elements.each((i, el) => {
+          if (jobs.length >= 500) return false;
           const jobEl = $(el);
           const titleEl = jobEl.find('h2, h3, h4, h5, .title, .job-title, [class*="title"], a').first();
           const title = titleEl.text().trim() || jobEl.text().trim().substring(0, 100);
@@ -78,7 +96,7 @@ function extractJobsFromHtml(html, platformName, region) {
   if (jobs.length === 0) {
     const $links = $('a[href]');
     $links.each((i, el) => {
-      if (i >= 60) return false;
+      if (i >= 200) return false;
       const text = $(el).text().trim();
       if (text.length >= 8 && text.length <= 120) {
         jobs.push(buildJob(text, 'Unknown', $(el).attr('href') || '', region, `Playwright (${platformName})`));
@@ -90,17 +108,15 @@ function extractJobsFromHtml(html, platformName, region) {
 }
 
 async function scrapePlatformPage(platform, region, keyword, browserContext) {
-  const { chromium } = require('playwright');
-  const { name, url, scope } = platform;
+  const { name, url } = platform;
   const regionLabel = region === 'global' ? 'global' : region;
 
-  let pageUrl = url;
   let page;
 
   try {
     page = await browserContext.newPage();
 
-    await page.goto(pageUrl, {
+    await page.goto(url, {
       waitUntil: 'domcontentloaded',
       timeout: 25000
     });
@@ -131,9 +147,37 @@ async function scrapePlatformPage(platform, region, keyword, browserContext) {
   }
 }
 
-async function scrapeAllPlatforms() {
+function buildTaskQueue(platforms, keywords) {
+  const tasks = [];
+
+  for (const platform of platforms) {
+    const regions = platform.scope === 'global' ? ['global'] :
+                   platform.scope === 'us' ? ['us'] :
+                   platform.scope === 'uk' ? ['uk'] :
+                   aggregatorConfig.regions;
+
+    for (const region of regions) {
+      for (const keyword of keywords) {
+        tasks.push({
+          platform,
+          region: region === 'global' ? 'global' : region,
+          keyword
+        });
+      }
+    }
+  }
+
+  return tasks;
+}
+
+async function fetchJobs() {
   const allJobs = [];
   const { keywords } = aggregatorConfig;
+
+  const tasks = buildTaskQueue(playwrightPlatforms, keywords);
+  const shuffled = shuffleArray(tasks);
+
+  console.log(`[PW] ${shuffled.length} tasks across ${playwrightPlatforms.length} platforms (shuffled)`);
 
   const { chromium } = require('playwright');
 
@@ -159,47 +203,23 @@ async function scrapeAllPlatforms() {
     });
 
     try {
-      for (const platform of playwrightPlatforms) {
-        const tasks = [];
+      for (let i = 0; i < shuffled.length; i += CONCURRENCY_LIMIT) {
+        const batch = shuffled.slice(i, i + CONCURRENCY_LIMIT);
 
-        const regions = platform.scope === 'global' ? ['global'] :
-                       platform.scope === 'us' ? ['us'] :
-                       platform.scope === 'uk' ? ['uk'] :
-                       aggregatorConfig.regions;
+        const batchResults = await Promise.allSettled(
+          batch.map(task => scrapePlatformPage(task.platform, task.region, task.keyword, globalContext))
+        );
 
-        for (const region of regions) {
-          for (const keyword of keywords) {
-            tasks.push({ platform, region: region === 'global' ? 'global' : region, keyword });
-
-            if (tasks.length >= CONCURRENCY_LIMIT) {
-              const batchResults = await Promise.allSettled(
-                tasks.map(task => scrapePlatformPage(task.platform, task.region, task.keyword, globalContext))
-              );
-
-              for (const result of batchResults) {
-                if (result.status === 'fulfilled') {
-                  allJobs.push(...result.value);
-                }
-              }
-
-              tasks.length = 0;
-            }
+        for (const result of batchResults) {
+          if (result.status === 'fulfilled') {
+            allJobs.push(...result.value);
           }
         }
 
-        if (tasks.length > 0) {
-          const batchResults = await Promise.allSettled(
-            tasks.map(task => scrapePlatformPage(task.platform, task.region, task.keyword, globalContext))
-          );
-
-          for (const result of batchResults) {
-            if (result.status === 'fulfilled') {
-              allJobs.push(...result.value);
-            }
-          }
+        if (i + CONCURRENCY_LIMIT < shuffled.length) {
+          const delay = randomJitter(JITTER_MIN_MS, JITTER_MAX_MS);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
-
-        console.log(`[PW] ${platform.name} complete: ${allJobs.length} total collected`);
       }
     } finally {
       await globalContext.close().catch(() => {});
@@ -208,17 +228,17 @@ async function scrapeAllPlatforms() {
     await browser.close().catch(() => {});
   }
 
+  const perPlatform = {};
+  for (const job of allJobs) {
+    const key = job.platformSource;
+    perPlatform[key] = (perPlatform[key] || 0) + 1;
+  }
+  for (const [k, v] of Object.entries(perPlatform)) {
+    console.log(`[PW] ${k} total: ${v} jobs`);
+  }
+
   console.log(`[PW] Total jobs from all playwright platforms: ${allJobs.length}`);
   return allJobs;
-}
-
-async function fetchJobs() {
-  try {
-    return await scrapeAllPlatforms();
-  } catch (err) {
-    console.error(`[PW] Playwright pipeline failed: ${err.message}`);
-    return [];
-  }
 }
 
 module.exports = { fetchJobs };

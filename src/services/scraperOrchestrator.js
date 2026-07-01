@@ -1,4 +1,5 @@
 const Job = require('../models/Job');
+const mongoose = require('mongoose');
 const rssFeedParser = require('./scrapers/rssFeedParser');
 const apiIngestor = require('./scrapers/apiIngestor');
 const aggregatorApi = require('./scrapers/aggregatorApi');
@@ -237,6 +238,13 @@ async function applyDuplicateStatuses(duplicateIds) {
 async function runAllScrapers() {
   console.log('[ORCH] ===== Scraping run started =====');
 
+  if (mongoose.connection.readyState !== 1) {
+    console.error('[ORCH] MongoDB is not connected (state: %d). Aborting scrape run.', mongoose.connection.readyState);
+    return { inserted: 0, duplicates: 0, excluded: 0, invalid: 0, llmDuplicates: 0, errors: 1, total: 0, dbConnected: false };
+  }
+
+  console.log('[ORCH] DB state: connected (readyState=1), DB name: %s', mongoose.connection.db.databaseName);
+
   startBatchSession('Full platform scraping run');
 
   const allJobs = [];
@@ -273,10 +281,17 @@ async function runAllScrapers() {
   let duplicates = 0;
   let excluded = 0;
   let errors = 0;
+  let invalid = 0;
   const candidateJobs = [];
+  const bulkOps = [];
 
   for (const job of allJobs) {
     try {
+      if (!job.url || !job.title || !job.company) {
+        invalid++;
+        continue;
+      }
+
       if (shouldExcludeCompany(job.company)) {
         excluded++;
         continue;
@@ -287,32 +302,62 @@ async function runAllScrapers() {
         continue;
       }
 
-      const result = await Job.updateOne(
-        { url: job.url },
-        { $setOnInsert: job },
-        { upsert: true }
-      );
+      bulkOps.push({
+        updateOne: {
+          filter: { url: job.url },
+          update: { $setOnInsert: job },
+          upsert: true
+        }
+      });
 
-      if (result.upsertedCount > 0) {
-        job._id = result.upsertedId;
-        candidateJobs.push(job);
-        inserted++;
-      } else {
-        duplicates++;
-      }
+      candidateJobs.push(job);
+
     } catch (err) {
-      if (err.code === 11000) {
-        duplicates++;
-      } else {
-        console.error(`[ORCH] Error inserting "${job.title}":`, err.message);
-        errors++;
-      }
+      console.error(`[ORCH] Error pre-processing "${job.title}": ${err.message}`);
+      errors++;
     }
   }
 
+  console.log(`[ORCH] Pre-filter complete: ${candidateJobs.length} candidates, ${invalid} invalid, ${excluded} excluded, ${duplicates} dup-skipped`);
+
+  if (bulkOps.length > 0) {
+    try {
+      const bulkResult = await Job.bulkWrite(bulkOps, { ordered: false });
+      inserted = bulkResult.upsertedCount || 0;
+      const bulkDups = bulkOps.length - inserted;
+
+      for (let i = 0; i < bulkResult.upsertedIds.length; i++) {
+        const key = Object.keys(bulkResult.upsertedIds[i])[0];
+        candidateJobs[i]._id = bulkResult.upsertedIds[i][key];
+      }
+
+      console.log(`[ORCH] bulkWrite complete: ${inserted} inserted, ${bulkDups} duplicates (total attempted: ${bulkOps.length})`);
+
+      if (inserted <= 3 || inserted % 100 === 0) {
+        const sample = candidateJobs.slice(0, 3).map(j => `"${j.title.substring(0, 35)}" @ ${j.platformSource}`).join(', ');
+        console.log(`[ORCH] Sample inserts: ${sample || 'none'}`);
+      }
+
+      duplicates += bulkDups;
+
+    } catch (bulkErr) {
+      console.error(`[ORCH] bulkWrite failed: ${bulkErr.message}`);
+      errors += bulkOps.length;
+    }
+  } else {
+    console.log(`[ORCH] No jobs to bulkWrite (all filtered out)`);
+  }
+
   console.log(
-    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${errors} errors`
+    `[ORCH] Local dedup complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${invalid} invalid, ${errors} errors`
   );
+
+  try {
+    const dbTotal = await Job.countDocuments({});
+    console.log(`[ORCH] MongoDB collection 'jobs' document count after upsert: ${dbTotal}`);
+  } catch (dbCheckErr) {
+    console.error(`[ORCH] Failed to verify DB count: ${dbCheckErr.message}`);
+  }
 
   let llmDuplicates = 0;
 
@@ -339,12 +384,21 @@ async function runAllScrapers() {
   }
 
   console.log(
-    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${llmDuplicates} LLM dedup, ${errors} errors`
+    `[ORCH] Run complete: ${inserted} inserted, ${duplicates} duplicates, ${excluded} excluded, ${invalid} invalid, ${llmDuplicates} LLM dedup, ${errors} errors`
   );
 
   finishBatchSession();
 
-  return { inserted, duplicates, excluded, llmDuplicates, errors, total: allJobs.length };
+  return { inserted, duplicates, excluded, invalid, llmDuplicates, errors, total: allJobs.length };
 }
 
-module.exports = { runAllScrapers };
+module.exports = {
+  runAllScrapers,
+  titleSimilarity,
+  wordTokenOverlap,
+  jaroWinkler,
+  levenshteinSimilarity,
+  levenshteinDistance,
+  groupByCompany,
+  buildClusters
+};
