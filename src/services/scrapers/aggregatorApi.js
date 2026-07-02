@@ -94,6 +94,7 @@ function buildMockJobs() {
 async function fetchRealJobs() {
   const allJobs = [];
   const { keywords } = aggregatorConfig;
+  const seenFingerprints = new Set();
 
   for (const keyword of keywords) {
     let regionKeywordCount = 0;
@@ -101,9 +102,16 @@ async function fetchRealJobs() {
     if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
       try {
         const jobs = await fetchAdzunaJobs(keyword);
-        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
-        if (filtered.length < jobs.length) {
-          console.log(`[AGG] Adzuna ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+        const unique = jobs.filter(job => {
+          if (!job.title || !job.company) return false;
+          const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
+          if (seenFingerprints.has(fp)) return false;
+          seenFingerprints.add(fp);
+          return true;
+        });
+        const filtered = unique.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < unique.length) {
+          console.log(`[AGG] Adzuna ${keyword}: excluded ${unique.length - filtered.length} jobs`);
         }
         allJobs.push(...filtered);
         regionKeywordCount += filtered.length;
@@ -115,9 +123,16 @@ async function fetchRealJobs() {
     if (JOOBLE_API_KEY) {
       try {
         const jobs = await fetchJoobleJobs(keyword);
-        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
-        if (filtered.length < jobs.length) {
-          console.log(`[AGG] Jooble ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+        const unique = jobs.filter(job => {
+          if (!job.title || !job.company) return false;
+          const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
+          if (seenFingerprints.has(fp)) return false;
+          seenFingerprints.add(fp);
+          return true;
+        });
+        const filtered = unique.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < unique.length) {
+          console.log(`[AGG] Jooble ${keyword}: excluded ${unique.length - filtered.length} jobs`);
         }
         allJobs.push(...filtered);
         regionKeywordCount += filtered.length;
