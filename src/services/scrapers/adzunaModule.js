@@ -88,7 +88,7 @@ async function fetchPage(keyword, region, page) {
     .map((raw) => normalizeAdzunaResult(raw, region));
 }
 
-async function fetchAdzunaJobs(keyword, regions = ADZUNA_REGIONS) {
+async function fetchAdzunaJobs(keyword, regions = ADZUNA_REGIONS, seenFingerprints = null) {
   const allJobs = [];
 
   for (const region of regions) {
@@ -96,8 +96,25 @@ async function fetchAdzunaJobs(keyword, regions = ADZUNA_REGIONS) {
       try {
         const pageJobs = await fetchPage(keyword, region, page);
         if (pageJobs.length === 0) break;
-        allJobs.push(...pageJobs);
-        console.log(`[ADZUNA] ${region}/${keyword} page ${page}: ${pageJobs.length} jobs`);
+
+        if (seenFingerprints) {
+          const uniquePageJobs = pageJobs.filter(job => {
+            if (!job.title || !job.company) return false;
+            const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
+            if (seenFingerprints.has(fp)) return false;
+            seenFingerprints.add(fp);
+            return true;
+          });
+          if (uniquePageJobs.length === 0) {
+            console.log(`[ADZUNA] ${region}/${keyword} page ${page}: all duplicates, breaking`);
+            break;
+          }
+          allJobs.push(...uniquePageJobs);
+          console.log(`[ADZUNA] ${region}/${keyword} page ${page}: ${uniquePageJobs.length} jobs (${pageJobs.length - uniquePageJobs.length} dupes dropped)`);
+        } else {
+          allJobs.push(...pageJobs);
+          console.log(`[ADZUNA] ${region}/${keyword} page ${page}: ${pageJobs.length} jobs`);
+        }
       } catch (err) {
         console.error(`[ADZUNA] ${region}/${keyword} page ${page} failed: ${err.message}`);
       }

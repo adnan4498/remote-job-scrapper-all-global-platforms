@@ -2,7 +2,7 @@ const OpenAI = require('openai');
 
 const LLM_API_KEY = process.env.LLM_API_KEY;
 const LLM_BASE_URL = process.env.LLM_BASE_URL || 'https://api.x.ai/v1';
-const LLM_MODEL_NAME = process.env.LLM_MODEL_NAME || 'grok-4-1-fast';
+const LLM_MODEL_NAME = process.env.LLM_MODEL_NAME || 'openai/gpt-oss-120b';
 
 const LLM_TIMEOUT_MS = 30000;
 const MAX_CLUSTER_SIZE = 10;

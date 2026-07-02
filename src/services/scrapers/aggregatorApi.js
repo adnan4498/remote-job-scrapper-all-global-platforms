@@ -101,17 +101,10 @@ async function fetchRealJobs() {
 
     if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
       try {
-        const jobs = await fetchAdzunaJobs(keyword);
-        const unique = jobs.filter(job => {
-          if (!job.title || !job.company) return false;
-          const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
-          if (seenFingerprints.has(fp)) return false;
-          seenFingerprints.add(fp);
-          return true;
-        });
-        const filtered = unique.filter(j => !shouldExcludeCompany(j.company));
-        if (filtered.length < unique.length) {
-          console.log(`[AGG] Adzuna ${keyword}: excluded ${unique.length - filtered.length} jobs`);
+        const jobs = await fetchAdzunaJobs(keyword, undefined, seenFingerprints);
+        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < jobs.length) {
+          console.log(`[AGG] Adzuna ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
         }
         allJobs.push(...filtered);
         regionKeywordCount += filtered.length;
@@ -122,17 +115,10 @@ async function fetchRealJobs() {
 
     if (JOOBLE_API_KEY) {
       try {
-        const jobs = await fetchJoobleJobs(keyword);
-        const unique = jobs.filter(job => {
-          if (!job.title || !job.company) return false;
-          const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
-          if (seenFingerprints.has(fp)) return false;
-          seenFingerprints.add(fp);
-          return true;
-        });
-        const filtered = unique.filter(j => !shouldExcludeCompany(j.company));
-        if (filtered.length < unique.length) {
-          console.log(`[AGG] Jooble ${keyword}: excluded ${unique.length - filtered.length} jobs`);
+        const jobs = await fetchJoobleJobs(keyword, undefined, seenFingerprints);
+        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < jobs.length) {
+          console.log(`[AGG] Jooble ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
         }
         allJobs.push(...filtered);
         regionKeywordCount += filtered.length;

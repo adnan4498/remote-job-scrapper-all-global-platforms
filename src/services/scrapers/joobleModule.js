@@ -3,55 +3,44 @@ const { fetchWithRetry } = require('./utils');
 
 const JOOBLE_API_KEY = process.env.JOOBLE_API_KEY;
 
-// const JOOBLE_LOCATION_MAP = {
-//   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
-//   za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
-//   ph: 'Philippines', pk: 'Pakistan', ae: 'United Arab Emirates', sa: 'Saudi Arabia',
-//   ie: 'Ireland', fr: 'France', de: 'Germany', es: 'Spain', it: 'Italy', nl: 'Netherlands',
-//   be: 'Belgium', ch: 'Switzerland', at: 'Austria', se: 'Sweden', no: 'Norway',
-//   dk: 'Denmark', fi: 'Finland', pl: 'Poland', cz: 'Czech Republic', hu: 'Hungary',
-//   ro: 'Romania', bg: 'Bulgaria', gr: 'Greece', tr: 'Turkey', br: 'Brazil',
-//   mx: 'Mexico', ar: 'Argentina', cl: 'Chile', co: 'Colombia', pe: 'Peru',
-//   ve: 'Venezuela', uy: 'Uruguay', ec: 'Ecuador', cr: 'Costa Rica', pa: 'Panama',
-//   jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', cn: 'China',
-//   ru: 'Russia', ua: 'Ukraine', by: 'Belarus', kz: 'Kazakhstan', il: 'Israel',
-//   eg: 'Egypt', ng: 'Nigeria', ke: 'Kenya', gh: 'Ghana', ma: 'Morocco',
-//   id: 'Indonesia', vn: 'Vietnam',
-// };
-
 const JOOBLE_LOCATION_MAP = {
   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
   za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
-  ph: 'Philippines', 
-  // pk: 'Pakistan', ae: 'United Arab Emirates', sa: 'Saudi Arabia',
-  // ie: 'Ireland', fr: 'France', de: 'Germany', es: 'Spain', it: 'Italy', nl: 'Netherlands',
-  // be: 'Belgium', ch: 'Switzerland', at: 'Austria', se: 'Sweden', no: 'Norway',
-  // dk: 'Denmark', fi: 'Finland', pl: 'Poland', cz: 'Czech Republic', hu: 'Hungary',
-  // ro: 'Romania', bg: 'Bulgaria', gr: 'Greece', tr: 'Turkey', br: 'Brazil',
-  // mx: 'Mexico', ar: 'Argentina', cl: 'Chile', co: 'Colombia', pe: 'Peru',
-  // ve: 'Venezuela', uy: 'Uruguay', ec: 'Ecuador', cr: 'Costa Rica', pa: 'Panama',
-  // jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', cn: 'China',
-  // ru: 'Russia', ua: 'Ukraine', by: 'Belarus', kz: 'Kazakhstan', il: 'Israel',
-  // eg: 'Egypt', ng: 'Nigeria', ke: 'Kenya', gh: 'Ghana', ma: 'Morocco',
-  // id: 'Indonesia', vn: 'Vietnam',
+  ph: 'Philippines', pk: 'Pakistan', ae: 'United Arab Emirates', sa: 'Saudi Arabia',
+  ie: 'Ireland', fr: 'France', de: 'Germany', es: 'Spain', it: 'Italy', nl: 'Netherlands',
+  be: 'Belgium', ch: 'Switzerland', at: 'Austria', se: 'Sweden', no: 'Norway',
+  dk: 'Denmark', fi: 'Finland', pl: 'Poland', cz: 'Czech Republic', hu: 'Hungary',
+  ro: 'Romania', bg: 'Bulgaria', gr: 'Greece', tr: 'Turkey', br: 'Brazil',
+  mx: 'Mexico', ar: 'Argentina', cl: 'Chile', co: 'Colombia', pe: 'Peru',
+  ve: 'Venezuela', uy: 'Uruguay', ec: 'Ecuador', cr: 'Costa Rica', pa: 'Panama',
+  jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', cn: 'China',
+  ru: 'Russia', ua: 'Ukraine', by: 'Belarus', kz: 'Kazakhstan', il: 'Israel',
+  eg: 'Egypt', ng: 'Nigeria', ke: 'Kenya', gh: 'Ghana', ma: 'Morocco',
+  id: 'Indonesia', vn: 'Vietnam',
 };
 
 const MAX_PAGES = 20;
 
-// const JOOBLE_REGIONS = [
-//   'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
-//   'ph', 'pk', 'ae', 'sa', 'ie', 'fr', 'de', 'es', 'it', 'nl',
-//   'be', 'ch', 'at', 'se', 'no', 'dk', 'fi', 'pl', 'cz', 'hu',
-//   'ro', 'bg', 'gr', 'tr', 'br', 'mx', 'ar', 'cl', 'co', 'pe',
-//   've', 'uy', 'ec', 'cr', 'pa', 'jp', 'kr', 'hk', 'tw', 'cn',
-//   'ru', 'ua', 'by', 'kz', 'il', 'eg', 'ng', 'ke', 'gh', 'ma',
-//   'id', 'vn',
-// ];
-
 const JOOBLE_REGIONS = [
   'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
-  'ph',
+  'ph', 'pk', 'ae', 'sa', 'ie', 'fr', 'de', 'es', 'it', 'nl',
+  'be', 'ch', 'at', 'se', 'no', 'dk', 'fi', 'pl', 'cz', 'hu',
+  'ro', 'bg', 'gr', 'tr', 'br', 'mx', 'ar', 'cl', 'co', 'pe',
+  've', 'uy', 'ec', 'cr', 'pa', 'jp', 'kr', 'hk', 'tw', 'cn',
+  'ru', 'ua', 'by', 'kz', 'il', 'eg', 'ng', 'ke', 'gh', 'ma',
+  'id', 'vn',
 ];
+
+// const JOOBLE_LOCATION_MAP = {
+//   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
+//   za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
+//   ph: 'Philippines', 
+// };
+
+// const JOOBLE_REGIONS = [
+//   'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
+//   'ph',
+// ];
 
 function buildSlug(title, company) {
   return `${title} ${company}`
@@ -139,7 +128,7 @@ async function fetchPage(keyword, region, page) {
     .filter(Boolean);
 }
 
-async function fetchJoobleJobs(keyword, regions = JOOBLE_REGIONS) {
+async function fetchJoobleJobs(keyword, regions = JOOBLE_REGIONS, seenFingerprints = null) {
   const allJobs = [];
 
   for (const region of regions) {
@@ -147,8 +136,25 @@ async function fetchJoobleJobs(keyword, regions = JOOBLE_REGIONS) {
       try {
         const pageJobs = await fetchPage(keyword, region, page);
         if (pageJobs.length === 0) break;
-        allJobs.push(...pageJobs);
-        console.log(`[JOOBLE] ${region}/${keyword} page ${page}: ${pageJobs.length} jobs`);
+
+        if (seenFingerprints) {
+          const uniquePageJobs = pageJobs.filter(job => {
+            if (!job.title || !job.company) return false;
+            const fp = `${job.title.toLowerCase().trim()}_${job.company.toLowerCase().trim()}`;
+            if (seenFingerprints.has(fp)) return false;
+            seenFingerprints.add(fp);
+            return true;
+          });
+          if (uniquePageJobs.length === 0) {
+            console.log(`[JOOBLE] ${region}/${keyword} page ${page}: all duplicates, breaking`);
+            break;
+          }
+          allJobs.push(...uniquePageJobs);
+          console.log(`[JOOBLE] ${region}/${keyword} page ${page}: ${uniquePageJobs.length} jobs (${pageJobs.length - uniquePageJobs.length} dupes dropped)`);
+        } else {
+          allJobs.push(...pageJobs);
+          console.log(`[JOOBLE] ${region}/${keyword} page ${page}: ${pageJobs.length} jobs`);
+        }
       } catch (err) {
         console.error(`[JOOBLE] ${region}/${keyword} page ${page} failed: ${err.message}`);
       }

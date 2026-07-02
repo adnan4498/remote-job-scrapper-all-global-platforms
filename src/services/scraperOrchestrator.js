@@ -142,17 +142,12 @@ function titleSimilarity(t1, t2) {
   return Math.max(jw, ls);
 }
 
-async function isDuplicate(job) {
+async function isDuplicate(job, companyHistoryMap) {
   const slugMatch = await Job.findOne({ slug: job.slug });
   if (slugMatch) return true;
 
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  const recentJobs = await Job.find({
-    company: job.company,
-    scrapedAt: { $gte: sevenDaysAgo },
-  })
-    .select('title company')
-    .lean();
+  const companyKey = job.company.toLowerCase().trim();
+  const recentJobs = companyHistoryMap.get(companyKey) || [];
 
   for (const existing of recentJobs) {
     const sim = titleSimilarity(job.title, existing.title);
@@ -282,6 +277,22 @@ async function runAllScrapers() {
   const existingSlugs = new Set(existingSlugDocs.map(d => d.slug));
   console.log(`[ORCH] Slug pre-check: ${existingSlugs.size} of ${allSlugs.length} slugs already exist in DB`);
 
+  const uniqueCompanies = [...new Set(allJobs.map(j => j.company.toLowerCase().trim()).filter(Boolean))];
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const companyHistoryDocs = await Job.find({
+    company: { $in: uniqueCompanies },
+    scrapedAt: { $gte: sevenDaysAgo },
+  })
+    .select('title company')
+    .lean();
+  const companyHistoryMap = new Map();
+  for (const doc of companyHistoryDocs) {
+    const key = doc.company.toLowerCase().trim();
+    if (!companyHistoryMap.has(key)) companyHistoryMap.set(key, []);
+    companyHistoryMap.get(key).push(doc);
+  }
+  console.log(`[ORCH] Company history cache: ${companyHistoryDocs.length} docs across ${uniqueCompanies.length} unique companies`);
+
   let inserted = 0;
   let duplicates = 0;
   let excluded = 0;
@@ -308,7 +319,7 @@ async function runAllScrapers() {
         continue;
       }
 
-      if (await isDuplicate(job)) {
+      if (await isDuplicate(job, companyHistoryMap)) {
         duplicates++;
         continue;
       }
