@@ -155,7 +155,21 @@ async function resolveFuzzyDuplicates(clusters) {
       return [];
     }
 
-    const parsed = JSON.parse(rawContent);
+    const cleaned = rawContent
+      .replace(/```json\s*/gi, '')
+      .replace(/```\s*/g, '')
+      .trim();
+
+    const jsonStart = cleaned.indexOf('{');
+    const jsonEnd = cleaned.lastIndexOf('}');
+
+    if (jsonStart === -1 || jsonEnd === -1 || jsonStart >= jsonEnd) {
+      console.warn('[LLM] No valid JSON object found in response:', rawContent.substring(0, 200));
+      return [];
+    }
+
+    const jsonStr = cleaned.substring(jsonStart, jsonEnd + 1);
+    const parsed = JSON.parse(jsonStr);
     const rawIds = parsed.duplicateIds || [];
 
     if (!Array.isArray(rawIds)) {
