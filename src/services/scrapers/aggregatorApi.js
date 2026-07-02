@@ -1,5 +1,4 @@
 const { aggregatorConfig } = require('../../config/platforms');
-const { logBatchEntry } = require('../../../scripts/lib/logger');
 const { shouldExcludeCompany } = require('../../../scripts/lib/company-filter');
 const { fetchAdzunaJobs } = require('./adzunaModule');
 const { fetchJoobleJobs } = require('./joobleModule');
@@ -126,8 +125,6 @@ async function fetchRealJobs() {
         console.error(`[AGG] Jooble ${keyword} failed: ${err.message}`);
       }
     }
-
-    logBatchEntry('Adzuna/Jooble', 'all', keyword, regionKeywordCount);
   }
 
   return allJobs;

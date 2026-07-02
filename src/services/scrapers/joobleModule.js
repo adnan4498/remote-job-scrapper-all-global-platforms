@@ -33,13 +33,11 @@ const JOOBLE_REGIONS = [
 
 // const JOOBLE_LOCATION_MAP = {
 //   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
-//   za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
-//   ph: 'Philippines', 
+//   za: 'South Africa',
 // };
 
 // const JOOBLE_REGIONS = [
-//   'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
-//   'ph',
+//   'us', 'uk', 'ca', 'au', 'nz', 'za',
 // ];
 
 function buildSlug(title, company) {

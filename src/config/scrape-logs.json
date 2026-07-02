@@ -1516,5 +1516,61 @@
       "Playwright (Y Combinator Jobs)": 224,
       "Playwright (PowerToFly)": 35
     }
+  },
+  {
+    "runId": 4,
+    "timestamp": "Thursday, July 2, 2026 — 7:03 PM",
+    "shortTimestamp": "7/2/2026 7:03 PM",
+    "startedAt": "2026-07-02T14:03:01.510Z",
+    "finishedAt": null,
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "RSS Feed Parser",
+        "region": "all",
+        "keyword": "all",
+        "count": 0,
+        "isMeta": true
+      },
+      {
+        "platform": "API Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 231,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 5,
+    "timestamp": "Thursday, July 2, 2026 — 7:08 PM",
+    "shortTimestamp": "7/2/2026 7:08 PM",
+    "startedAt": "2026-07-02T14:08:36.215Z",
+    "finishedAt": null,
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [],
+    "platforms": {}
+  },
+  {
+    "runId": 6,
+    "timestamp": "Thursday, July 2, 2026 — 7:12 PM",
+    "shortTimestamp": "7/2/2026 7:12 PM",
+    "startedAt": "2026-07-02T14:12:17.733Z",
+    "finishedAt": "2026-07-02T14:15:01.267Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 254,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
   }
 ]

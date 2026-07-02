@@ -2,7 +2,7 @@ const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const rssFeedParser = require('./scrapers/rssFeedParser');
 const apiIngestor = require('./scrapers/apiIngestor');
-const aggregatorApi = require('./scrapers/aggregatorApi');
+const { fetchJobs: fetchAggregatorJobs } = require('./scrapers/aggregatorApi');
 const atsIngestor = require('./scrapers/atsIngestor');
 const cheerioScraper = require('./scrapers/cheerioScraper');
 const playwrightScraper = require('./scrapers/playwrightScraper');
@@ -14,7 +14,6 @@ const { shouldExcludeCompany } = require('../../scripts/lib/company-filter');
 const LIGHTWEIGHT_SCRAPERS = [
   { name: 'RSS Feed Parser', module: rssFeedParser },
   { name: 'API Ingestor', module: apiIngestor },
-  { name: 'Aggregator API', module: aggregatorApi },
   { name: 'ATS Ingestor', module: atsIngestor },
 ];
 
@@ -244,29 +243,43 @@ async function runAllScrapers() {
 
   const allJobs = [];
 
-  for (const scraper of LIGHTWEIGHT_SCRAPERS) {
-    try {
-      const jobs = await scraper.module.fetchJobs();
-      console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
-      allJobs.push(...jobs);
-      logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
-    } catch (err) {
-      console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
-      logBatchEntry(scraper.name, 'error', 'all', 0, true);
+  if (false) {
+    for (const scraper of LIGHTWEIGHT_SCRAPERS) {
+      try {
+        const jobs = await scraper.module.fetchJobs();
+        console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
+        allJobs.push(...jobs);
+        logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
+      } catch (err) {
+        console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
+        logBatchEntry(scraper.name, 'error', 'all', 0, true);
+      }
     }
   }
 
-  console.log('[ORCH] Heavyweight scrapers starting...');
+  try {
+    const aggJobs = await fetchAggregatorJobs();
+    console.log(`[ORCH] Aggregator API: ${aggJobs.length} jobs`);
+    allJobs.push(...aggJobs);
+    logBatchEntry('Aggregator API', 'all', 'all', aggJobs.length, true);
+  } catch (err) {
+    console.error(`[ORCH] Aggregator API failed:`, err.message);
+    logBatchEntry('Aggregator API', 'error', 'all', 0, true);
+  }
 
-  for (const scraper of HEAVYWEIGHT_SCRAPERS) {
-    try {
-      const jobs = await scraper.module.fetchJobs();
-      console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
-      allJobs.push(...jobs);
-      logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
-    } catch (err) {
-      console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
-      logBatchEntry(scraper.name, 'error', 'all', 0, true);
+  if (false) {
+    console.log('[ORCH] Heavyweight scrapers starting...');
+
+    for (const scraper of HEAVYWEIGHT_SCRAPERS) {
+      try {
+        const jobs = await scraper.module.fetchJobs();
+        console.log(`[ORCH] ${scraper.name}: ${jobs.length} jobs`);
+        allJobs.push(...jobs);
+        logBatchEntry(scraper.name, 'all', 'all', jobs.length, true);
+      } catch (err) {
+        console.error(`[ORCH] Scraper "${scraper.name}" failed:`, err.message);
+        logBatchEntry(scraper.name, 'error', 'all', 0, true);
+      }
     }
   }
 

@@ -15,6 +15,10 @@ const ADZUNA_REGIONS = [
   'pl', 'sg',
 ];
 
+// const ADZUNA_REGIONS = [
+//   'us', 'gb', 'au', 'ca', 'in', 'za', 'nl', 'fr',
+// ];
+
 function buildSlug(title, company) {
   return `${title} ${company}`
     .toLowerCase()

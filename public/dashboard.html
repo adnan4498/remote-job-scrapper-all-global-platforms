@@ -260,6 +260,17 @@
       opacity: 0.7;
     }
 
+    .cell-country {
+      font-size: 11px;
+      padding: 2px 6px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 8px;
+      font-weight: 600;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
     .cell-link a {
       color: var(--primary);
       text-decoration: none;
@@ -649,6 +660,7 @@
           <th>Title</th>
           <th>Region</th>
           <th>Source</th>
+          <th>Country</th>
           <th>URL</th>
           <th>Status</th>
           <th>Action</th>
@@ -811,6 +823,7 @@
           html += '<td class="cell-title" title="' + escapeAttr(job.title) + '">' + escapeHtml(truncatedTitle) + '</td>';
           html += '<td class="cell-region">' + escapeHtml(job.region || 'Remote') + '</td>';
           html += '<td><span class="cell-source">' + escapeHtml(job.platformSource) + '</span></td>';
+          html += '<td><span class="cell-country">' + escapeHtml((job.countryCode || '').toUpperCase()) + '</span></td>';
           html += '<td class="cell-link"><a href="' + escapeAttr(job.url) + '" target="_blank" rel="noopener" data-id="' + job._id + '">Open</a></td>';
           html += '<td>';
           html += '<select class="status-select status-' + job.status + '" data-id="' + job._id + '">';
