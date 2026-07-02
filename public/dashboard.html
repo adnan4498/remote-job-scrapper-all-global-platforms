@@ -466,6 +466,67 @@
       border-color: #5a6170;
       color: #c4b5fd;
     }
+    .btn-dedup {
+      color: #e17055;
+      border-color: #fab1a0;
+    }
+    .btn-dedup:hover {
+      background: #fff5f5;
+    }
+
+    .metrics-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .metrics-overlay.hidden { display: none; }
+    .metrics-pane {
+      width: min(580px, 94vw);
+      background: var(--surface);
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .metrics-pane h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .metric-card {
+      padding: 14px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .metric-card .mc-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .metric-card .mc-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .metric-card .mc-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .metric-card.warn .mc-value { color: #e17055; }
 
     .copied-toast {
       position: fixed;
@@ -556,7 +617,14 @@
       <button class="btn" id="btn-refresh">Refresh</button>
       <button class="btn btn-danger" id="btn-purge">Purge Stale Pending</button>
       <button class="btn btn-logs" id="btn-logs">View Test Flight Logs</button>
-      <button class="btn" id="btn-dedup" style="color:#e17055;border-color:#fab1a0">Run Cross-Run Dedup</button>
+      <button class="btn btn-dedup" id="btn-dedup" style="color:#e17055;border-color:#fab1a0">Run Cross-Run Dedup</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding-top:8px;width:100%;flex-wrap:wrap">
+      <label style="font-size:12px;color:var(--text-secondary);white-space:nowrap">Filter by Run:</label>
+      <select id="main-run-selector" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:12px;background:var(--surface);color:var(--text);max-width:280px">
+        <option value="">All Runs</option>
+      </select>
+      <button class="btn btn-sm" id="btn-metrics" style="margin-left:auto">View Run Metrics Overview</button>
     </div>
   </header>
 
@@ -595,6 +663,26 @@
   </div>
 
   <div class="copied-toast" id="toast">Copied to clipboard</div>
+
+  <div class="metrics-overlay hidden" id="metrics-overlay">
+    <div class="metrics-pane">
+      <h2>Run Metrics Overview</h2>
+      <div style="display:flex;gap:8px;align-items:center">
+        <label style="font-size:12px;color:var(--text-secondary)">Run Context:</label>
+        <select id="metrics-run-selector" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:12px;flex:1">
+          <option value="">All History</option>
+        </select>
+      </div>
+      <div class="metrics-grid" id="metrics-grid">
+        <div class="metric-card"><div class="mc-label">Top Platform</div><div class="mc-value" id="m-top-platform">-</div><div class="mc-sub" id="m-top-platform-jobs"></div></div>
+        <div class="metric-card warn"><div class="mc-label">Lowest Platform</div><div class="mc-value" id="m-low-platform">-</div><div class="mc-sub" id="m-low-platform-jobs"></div></div>
+        <div class="metric-card"><div class="mc-label">Top Region</div><div class="mc-value" id="m-top-region">-</div><div class="mc-sub" id="m-top-region-jobs"></div></div>
+        <div class="metric-card warn"><div class="mc-label">Lowest Region</div><div class="mc-value" id="m-low-region">-</div><div class="mc-sub" id="m-low-region-jobs"></div></div>
+        <div class="metric-card" style="grid-column:1/-1"><div class="mc-label">Top Keyword</div><div class="mc-value" id="m-top-keyword">-</div><div class="mc-sub" id="m-top-keyword-jobs"></div></div>
+      </div>
+      <button class="btn" id="metrics-close-btn" style="align-self:flex-end">Close</button>
+    </div>
+  </div>
 
   <div class="log-overlay hidden" id="log-overlay">
     <div class="log-pane">
@@ -948,6 +1036,72 @@
       var logCloseBtn = document.getElementById('log-close-btn');
       var logRunSelector = document.getElementById('log-run-selector');
 
+      var mainRunSelector = document.getElementById('main-run-selector');
+      var btnMetrics = document.getElementById('btn-metrics');
+      var metricsOverlay = document.getElementById('metrics-overlay');
+      var metricsRunSelector = document.getElementById('metrics-run-selector');
+      var metricsCloseBtn = document.getElementById('metrics-close-btn');
+
+      var allRuns = [];
+      var allLogRuns = [];
+
+      function populateMainRunSelector(runs) {
+        allLogRuns = runs || [];
+        var options = '<option value="">All Runs</option>';
+        var sorted = allLogRuns.slice().sort(function (a, b) {
+          return new Date(b.startedAt || 0) - new Date(a.startedAt || 0);
+        });
+        for (var i = 0; i < sorted.length; i++) {
+          var r = sorted[i];
+          var label = 'Run #' + r.runId + ' \u2014 ' + (r.shortTimestamp || r.timestamp || '');
+          var val = r.startedAt + '|' + r.finishedAt;
+          options += '<option value="' + val + '">' + label + '</option>';
+        }
+        mainRunSelector.innerHTML = options;
+      }
+
+      function fetchAndPopulateRunSelectors() {
+        fetch('/api/scrape/logs')
+          .then(function (resp) { return resp.json(); })
+          .then(function (runs) {
+            populateMainRunSelector(runs);
+            populateMetricsRunSelector(runs);
+          })
+          .catch(function () {});
+      }
+
+      mainRunSelector.addEventListener('change', function () {
+        var val = this.value;
+        if (!val) {
+          loadJobs();
+          return;
+        }
+        var parts = val.split('|');
+        var params = '?startedAt=' + encodeURIComponent(parts[0]) + '&finishedAt=' + encodeURIComponent(parts[1]);
+        loadJobsFiltered(params);
+      });
+
+      function loadJobsFiltered(queryString) {
+        var loading = document.getElementById('loading');
+        loading.style.display = 'block';
+        document.getElementById('jobs-table').style.display = 'none';
+        document.getElementById('empty-state').style.display = 'none';
+
+        fetch('/api/jobs' + (queryString || ''))
+          .then(function (resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            return resp.json();
+          })
+          .then(function (jobs) { renderTable(jobs); })
+          .catch(function (err) {
+            console.error('Failed to load jobs:', err);
+            loading.innerHTML = '<span style="color:#d63031">Error loading jobs. Is the server running?</span>';
+          });
+      }
+
+      var originalLoadJobs = loadJobs;
+      loadJobs = function () { originalLoadJobs(); fetchAndPopulateRunSelectors(); };
+
       var allRuns = [];
 
       function openLogPane() {
@@ -1086,6 +1240,105 @@
         if (e.key === 'Escape' && !logOverlay.classList.contains('hidden')) {
           closeLogPane();
         }
+      });
+
+      function populateMetricsRunSelector(runs) {
+        var options = '<option value="">All History</option>';
+        var sorted = (runs || []).slice().sort(function (a, b) {
+          return new Date(b.startedAt || 0) - new Date(a.startedAt || 0);
+        });
+        for (var i = 0; i < sorted.length; i++) {
+          var r = sorted[i];
+          options += '<option value="' + i + '">Run #' + r.runId + ' \u2014 ' + (r.shortTimestamp || r.timestamp || '') + '</option>';
+        }
+        metricsRunSelector.innerHTML = options;
+      }
+
+      function computeMetrics(entries) {
+        var platformTotals = {};
+        var regionTotals = {};
+        var keywordTotals = {};
+        for (var i = 0; i < entries.length; i++) {
+          var e = entries[i];
+          if (e.isMeta) continue;
+          var plat = e.platform || 'Unknown';
+          var reg = e.region && e.region !== 'all' ? e.region : 'global';
+          var kw = e.keyword || 'unknown';
+          platformTotals[plat] = (platformTotals[plat] || 0) + e.count;
+          regionTotals[reg] = (regionTotals[reg] || 0) + e.count;
+          keywordTotals[kw] = (keywordTotals[kw] || 0) + e.count;
+        }
+        var topPlat = ['-', 0], lowPlat = ['-', Infinity];
+        for (var k in platformTotals) {
+          if (platformTotals[k] > topPlat[1]) topPlat = [k, platformTotals[k]];
+          if (platformTotals[k] < lowPlat[1] && platformTotals[k] > 0) lowPlat = [k, platformTotals[k]];
+        }
+        if (lowPlat[1] === Infinity) lowPlat = ['-', 0];
+        var topReg = ['-', 0], lowReg = ['-', Infinity];
+        for (var rk in regionTotals) {
+          if (regionTotals[rk] > topReg[1]) topReg = [rk, regionTotals[rk]];
+          if (regionTotals[rk] < lowReg[1] && regionTotals[rk] > 0) lowReg = [rk, regionTotals[rk]];
+        }
+        if (lowReg[1] === Infinity) lowReg = ['-', 0];
+        var topKw = ['-', 0];
+        for (var kwk in keywordTotals) {
+          if (keywordTotals[kwk] > topKw[1]) topKw = [kwk, keywordTotals[kwk]];
+        }
+        return { topPlat: topPlat, lowPlat: lowPlat, topReg: topReg, lowReg: lowReg, topKw: topKw };
+      }
+
+      function renderMetrics(entries) {
+        var m = computeMetrics(entries);
+        document.getElementById('m-top-platform').textContent = m.topPlat[0];
+        document.getElementById('m-top-platform-jobs').textContent = m.topPlat[1] + ' jobs';
+        document.getElementById('m-low-platform').textContent = m.lowPlat[0];
+        document.getElementById('m-low-platform-jobs').textContent = m.lowPlat[1] + ' jobs';
+        document.getElementById('m-top-region').textContent = m.topReg[0];
+        document.getElementById('m-top-region-jobs').textContent = m.topReg[1] + ' jobs';
+        document.getElementById('m-low-region').textContent = m.lowReg[0];
+        document.getElementById('m-low-region-jobs').textContent = m.lowReg[1] + ' jobs';
+        document.getElementById('m-top-keyword').textContent = m.topKw[0];
+        document.getElementById('m-top-keyword-jobs').textContent = m.topKw[1] + ' jobs';
+      }
+
+      metricsRunSelector.addEventListener('change', function () {
+        var idx = parseInt(this.value, 10);
+        if (isNaN(idx)) {
+          var allEntries = [];
+          for (var i = 0; i < allLogRuns.length; i++) {
+            allEntries = allEntries.concat(allLogRuns[i].entries || []);
+          }
+          renderMetrics(allEntries);
+          return;
+        }
+        var sorted = allLogRuns.slice().sort(function (a, b) {
+          return new Date(b.startedAt || 0) - new Date(a.startedAt || 0);
+        });
+        if (idx >= 0 && idx < sorted.length) {
+          renderMetrics(sorted[idx].entries || []);
+        }
+      });
+
+      btnMetrics.addEventListener('click', function () {
+        metricsOverlay.classList.remove('hidden');
+        fetch('/api/scrape/logs')
+          .then(function (resp) { return resp.json(); })
+          .then(function (runs) {
+            populateMetricsRunSelector(runs);
+            var allEntries = [];
+            for (var i = 0; i < runs.length; i++) {
+              allEntries = allEntries.concat(runs[i].entries || []);
+            }
+            renderMetrics(allEntries);
+          });
+      });
+
+      metricsCloseBtn.addEventListener('click', function () {
+        metricsOverlay.classList.add('hidden');
+      });
+
+      metricsOverlay.addEventListener('click', function (e) {
+        if (e.target === metricsOverlay) metricsOverlay.classList.add('hidden');
       });
 
       loadJobs();

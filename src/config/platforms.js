@@ -70,8 +70,8 @@ const protectedPlatforms = [
 ];
 
 const atsPlatforms = {
-  greenhouse: ['gitlab', 'twilio', 'stripe', 'clara', 'monzo'],
-  lever: ['lever', 'netflix', 'palantir', 'geekhunter', 'open-government-products'],
+  greenhouse: [""],
+  lever: ['lever', 'geekhunter', 'open-government-products'],
 };
 
 const aggregatorConfig = {

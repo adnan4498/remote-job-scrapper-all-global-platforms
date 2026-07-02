@@ -1,8 +1,8 @@
-const axios = require('axios');
-const { fetchWithRetry } = require('./utils');
 const { aggregatorConfig } = require('../../config/platforms');
 const { logBatchEntry } = require('../../../scripts/lib/logger');
 const { shouldExcludeCompany } = require('../../../scripts/lib/company-filter');
+const { fetchAdzunaJobs } = require('./adzunaModule');
+const { fetchJoobleJobs } = require('./joobleModule');
 
 const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
 const ADZUNA_API_KEY = process.env.ADZUNA_API_KEY;
@@ -91,96 +91,42 @@ function buildMockJobs() {
   );
 }
 
-async function fetchAdzunaJob(keyword, region) {
-  const encodedKeyword = encodeURIComponent(keyword);
-  const url = `https://api.adzuna.com/v1/api/jobs/${region}/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_API_KEY}&what=${encodedKeyword}&results_per_page=20&content-type=application/json`;
-
-  const response = await fetchWithRetry(
-    () => axios.get(url, { timeout: 30000 }),
-    `Adzuna/${region}/${keyword}`
-  );
-
-  const results = response.data && response.data.results;
-  if (!Array.isArray(results)) return [];
-
-  return results.map((raw) =>
-    buildNormalizedJob(
-      raw.title,
-      raw.company && raw.company.display_name ? raw.company.display_name : 'Unknown',
-      raw.redirect_url || raw.url || '',
-      raw.location && raw.location.display_name ? raw.location.display_name : region.toUpperCase(),
-      'Adzuna'
-    )
-  );
-}
-
-async function fetchJoobleJob(keyword, region) {
-  const url = `https://jooble.org/api/${JOOBLE_API_KEY}`;
-  const regionMap = { us: 'United States', uk: 'United Kingdom', ca: 'Canada' };
-
-  const response = await fetchWithRetry(
-    () =>
-      axios.post(url, {
-        keywords: keyword,
-        location: regionMap[region] || region,
-      }, { timeout: 30000 }),
-    `Jooble/${region}/${keyword}`
-  );
-
-  const results = response.data && response.data.jobs;
-  if (!Array.isArray(results)) return [];
-
-  return results.map((raw) =>
-    buildNormalizedJob(
-      raw.title,
-      raw.company || 'Unknown',
-      raw.link || '',
-      raw.location || regionMap[region] || region.toUpperCase(),
-      'Jooble'
-    )
-  );
-}
-
 async function fetchRealJobs() {
   const allJobs = [];
-  const { keywords, regions, excludedCompanies } = aggregatorConfig;
+  const { keywords } = aggregatorConfig;
 
-  for (const region of regions) {
-    for (const keyword of keywords) {
-      let regionKeywordCount = 0;
+  for (const keyword of keywords) {
+    let regionKeywordCount = 0;
 
-      if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
-        try {
-          const jobs = await fetchAdzunaJob(keyword, region);
-          console.log(`[AGG] Adzuna ${region}/${keyword}: ${jobs.length} jobs`);
-          const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
-          if (filtered.length < jobs.length) {
-            console.log(`[AGG] Adzuna ${region}/${keyword}: excluded ${jobs.length - filtered.length} jobs`);
-          }
-          allJobs.push(...filtered);
-          regionKeywordCount += filtered.length;
-        } catch (err) {
-          console.error(`[AGG] Adzuna ${region}/${keyword} failed: ${err.message}`);
+    if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
+      try {
+        const jobs = await fetchAdzunaJobs(keyword);
+        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < jobs.length) {
+          console.log(`[AGG] Adzuna ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
         }
+        allJobs.push(...filtered);
+        regionKeywordCount += filtered.length;
+      } catch (err) {
+        console.error(`[AGG] Adzuna ${keyword} failed: ${err.message}`);
       }
-
-      if (JOOBLE_API_KEY) {
-        try {
-          const jobs = await fetchJoobleJob(keyword, region);
-          console.log(`[AGG] Jooble ${region}/${keyword}: ${jobs.length} jobs`);
-          const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
-          if (filtered.length < jobs.length) {
-            console.log(`[AGG] Jooble ${region}/${keyword}: excluded ${jobs.length - filtered.length} jobs`);
-          }
-          allJobs.push(...filtered);
-          regionKeywordCount += filtered.length;
-        } catch (err) {
-          console.error(`[AGG] Jooble ${region}/${keyword} failed: ${err.message}`);
-        }
-      }
-
-      logBatchEntry('Adzuna/Jooble', region, keyword, regionKeywordCount);
     }
+
+    if (JOOBLE_API_KEY) {
+      try {
+        const jobs = await fetchJoobleJobs(keyword);
+        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+        if (filtered.length < jobs.length) {
+          console.log(`[AGG] Jooble ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+        }
+        allJobs.push(...filtered);
+        regionKeywordCount += filtered.length;
+      } catch (err) {
+        console.error(`[AGG] Jooble ${keyword} failed: ${err.message}`);
+      }
+    }
+
+    logBatchEntry('Adzuna/Jooble', 'all', keyword, regionKeywordCount);
   }
 
   return allJobs;

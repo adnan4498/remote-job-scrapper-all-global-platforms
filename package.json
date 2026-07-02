@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon --ignore scrape-logs.json src/server.js",
-    "clean": "node src/utils/clearDb.js"
+    "clean": "node src/utils/clearDb.js",
+    "test:aggregators": "node src/scripts/testAggregators.js"
   },
   "dependencies": {
     "axios": "^1.7.9",

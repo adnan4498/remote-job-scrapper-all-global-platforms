@@ -54,6 +54,12 @@ app.get('/api/jobs', async (req, res, next) => {
       }
       filter.status = req.query.status;
     }
+    if (req.query.startedAt && req.query.finishedAt) {
+      filter.scrapedAt = {
+        $gte: new Date(req.query.startedAt),
+        $lte: new Date(req.query.finishedAt)
+      };
+    }
     const total = await Job.countDocuments({});
     const jobs = await Job.find(filter).sort({ scrapedAt: -1 }).lean();
     console.log(`[API] GET /api/jobs → ${jobs.length} jobs returned (DB total: ${total})`);

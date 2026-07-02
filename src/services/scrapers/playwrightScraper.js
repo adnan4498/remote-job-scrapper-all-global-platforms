@@ -94,11 +94,12 @@ function extractJobsFromHtml(html, platformName, region) {
   }
 
   if (jobs.length === 0) {
+    const skipPatterns = /privacy|terms|twitter|linkedin|facebook|instagram|youtube|©|copyright|contact us|about us|blog|press|careers|help center|cookie|accessibility|all rights reserved/i;
     const $links = $('a[href]');
     $links.each((i, el) => {
-      if (i >= 200) return false;
+      if (jobs.length >= 200) return false;
       const text = $(el).text().trim();
-      if (text.length >= 8 && text.length <= 120) {
+      if (text.length >= 8 && text.length <= 120 && !skipPatterns.test(text)) {
         jobs.push(buildJob(text, 'Unknown', $(el).attr('href') || '', region, `Playwright (${platformName})`));
       }
     });

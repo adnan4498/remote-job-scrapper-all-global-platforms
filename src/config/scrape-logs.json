@@ -1010,5 +1010,511 @@
       "Playwright (PowerToFly)": 76,
       "Playwright (Y Combinator Jobs)": 238
     }
+  },
+  {
+    "runId": 3,
+    "timestamp": "Wednesday, July 1, 2026 — 7:12 PM",
+    "shortTimestamp": "7/1/2026 7:12 PM",
+    "startedAt": "2026-07-01T14:12:53.165Z",
+    "finishedAt": "2026-07-01T14:25:22.502Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 2690,
+    "entries": [
+      {
+        "platform": "RSS Feed Parser",
+        "region": "all",
+        "keyword": "all",
+        "count": 50,
+        "isMeta": true
+      },
+      {
+        "platform": "API Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 231,
+        "isMeta": true
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "react",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "us",
+        "keyword": "node js",
+        "count": 50,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "react",
+        "count": 30,
+        "isMeta": false
+      },
+      {
+        "platform": "Adzuna/Jooble",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 28,
+        "isMeta": false
+      },
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 158,
+        "isMeta": true
+      },
+      {
+        "platform": "ATS Ingestor",
+        "region": "all",
+        "keyword": "all",
+        "count": 428,
+        "isMeta": true
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "react",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 200,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Remote.io)",
+        "region": "global",
+        "keyword": "react",
+        "count": 39,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Cloud Computing Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 53,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "react",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (JustRemote)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 6,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (SaaSTr Job Board)",
+        "region": "global",
+        "keyword": "react",
+        "count": 200,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (NoDesk)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 137,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (CybersecurityJobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 79,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Infosec Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (Crunchboard)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio (HackerJobs)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Cheerio Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 1028,
+        "isMeta": true
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "react",
+        "count": 159,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Monster)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 111,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Dice)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (CareerBuilder)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 62,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Wellfound)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 159,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (ZipRecruiter)",
+        "region": "uk",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Indeed)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Built In)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "us",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected (Glassdoor)",
+        "region": "uk",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Protected Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 1010,
+        "isMeta": true
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "react",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 115,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Techstars Job List)",
+        "region": "global",
+        "keyword": "react",
+        "count": 2,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "react",
+        "count": 112,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Dynamite Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 115,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Y Combinator Jobs)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 112,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Remote.co)",
+        "region": "global",
+        "keyword": "node js",
+        "count": 0,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (Pangian)",
+        "region": "global",
+        "keyword": "react",
+        "count": 1,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright (PowerToFly)",
+        "region": "global",
+        "keyword": "react",
+        "count": 35,
+        "isMeta": false
+      },
+      {
+        "platform": "Playwright Scraper",
+        "region": "all",
+        "keyword": "all",
+        "count": 494,
+        "isMeta": true
+      }
+    ],
+    "platforms": {
+      "Adzuna/Jooble": 158,
+      "Cheerio (HackerJobs)": 0,
+      "Cheerio (Remote.io)": 78,
+      "Cheerio (Infosec Jobs)": 0,
+      "Cheerio (JustRemote)": 12,
+      "Cheerio (SaaSTr Job Board)": 400,
+      "Cheerio (CybersecurityJobs)": 158,
+      "Cheerio (Cloud Computing Jobs)": 106,
+      "Cheerio (Crunchboard)": 0,
+      "Cheerio (NoDesk)": 274,
+      "Protected (ZipRecruiter)": 0,
+      "Protected (CareerBuilder)": 248,
+      "Protected (Monster)": 444,
+      "Protected (Wellfound)": 318,
+      "Protected (Glassdoor)": 0,
+      "Protected (Built In)": 0,
+      "Protected (Dice)": 0,
+      "Protected (Indeed)": 0,
+      "Playwright (Remote.co)": 0,
+      "Playwright (Dynamite Jobs)": 230,
+      "Playwright (Techstars Job List)": 4,
+      "Playwright (Pangian)": 1,
+      "Playwright (Y Combinator Jobs)": 224,
+      "Playwright (PowerToFly)": 35
+    }
   }
 ]

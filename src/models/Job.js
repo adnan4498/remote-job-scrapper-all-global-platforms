@@ -51,6 +51,39 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    source: {
+      type: String,
+      trim: true,
+    },
+    rawId: {
+      type: String,
+      trim: true,
+    },
+    location: {
+      type: String,
+      trim: true,
+    },
+    countryCode: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
+    description: {
+      type: String,
+      default: '',
+    },
+    salary: {
+      min: { type: Number, default: null },
+      max: { type: Number, default: null },
+      currency: { type: String, default: null },
+    },
+    postedAt: {
+      type: Date,
+    },
+    fetchedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,

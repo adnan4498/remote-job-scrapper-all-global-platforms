@@ -1,0 +1,606 @@
+{
+  "adzuna": {
+    "us": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "gb": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "uk": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ca": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "au": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "nz": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "de": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "fr": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "es": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "it": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "pt": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "br": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "nl": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "be": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "lu": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "at": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ch": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "se": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "no": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "dk": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "fi": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "is": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "pl": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "cz": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "sk": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "hu": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ro": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "bg": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "hr": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "rs": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "lt": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "lv": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ee": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ru": {
+      "react": "HTTP_404",
+      "node js": "HTTP_404"
+    },
+    "ua": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "gr": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "cy": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "tr": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "il": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ae": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "sa": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "qa": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "kw": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "bh": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "om": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "eg": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "jo": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "lb": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "pk": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "in": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "sg": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "my": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ph": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "hk": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "id": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "th": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "vn": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "jp": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "kr": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "cn": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "tw": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "mx": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ar": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "cl": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "co": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "pe": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "cr": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "pa": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "uy": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ve": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ec": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "za": {
+      "react": "SUCCESS (20 jobs)",
+      "node js": "SUCCESS (20 jobs)"
+    },
+    "ng": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ke": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    },
+    "ie": {
+      "react": "SKIP_UNSUPPORTED",
+      "node js": "SKIP_UNSUPPORTED"
+    }
+  },
+  "jooble": {
+    "us": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (30 jobs)"
+    },
+    "gb": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (28 jobs)"
+    },
+    "uk": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (28 jobs)"
+    },
+    "ca": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (30 jobs)"
+    },
+    "au": {
+      "react": "SUCCESS (26 jobs)",
+      "node js": "SUCCESS (5 jobs)"
+    },
+    "nz": {
+      "react": "SUCCESS (6 jobs)",
+      "node js": "SUCCESS (3 jobs)"
+    },
+    "de": {
+      "react": "SUCCESS (9 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "fr": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "es": {
+      "react": "SUCCESS (4 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "it": {
+      "react": "SUCCESS (26 jobs)",
+      "node js": "SUCCESS (6 jobs)"
+    },
+    "pt": {
+      "react": "SUCCESS (4 jobs)",
+      "node js": "SUCCESS (2 jobs)"
+    },
+    "br": {
+      "react": "SUCCESS (12 jobs)",
+      "node js": "SUCCESS (8 jobs)"
+    },
+    "nl": {
+      "react": "SUCCESS (2 jobs)",
+      "node js": "SUCCESS (2 jobs)"
+    },
+    "be": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "lu": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "at": {
+      "react": "SUCCESS (12 jobs)",
+      "node js": "SUCCESS (6 jobs)"
+    },
+    "ch": {
+      "react": "SUCCESS (3 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "se": {
+      "react": "SUCCESS (3 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "no": {
+      "react": "SUCCESS (2 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "dk": {
+      "react": "SUCCESS (8 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "fi": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "is": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "pl": {
+      "react": "SUCCESS (12 jobs)",
+      "node js": "SUCCESS (3 jobs)"
+    },
+    "cz": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "sk": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "hu": {
+      "react": "SUCCESS (18 jobs)",
+      "node js": "SUCCESS (3 jobs)"
+    },
+    "ro": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "bg": {
+      "react": "SUCCESS (8 jobs)",
+      "node js": "SUCCESS (7 jobs)"
+    },
+    "hr": {
+      "react": "SUCCESS (5 jobs)",
+      "node js": "SUCCESS (2 jobs)"
+    },
+    "rs": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "lt": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "lv": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ee": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ru": {
+      "react": "SUCCESS (7 jobs)",
+      "node js": "SUCCESS (6 jobs)"
+    },
+    "ua": {
+      "react": "SUCCESS (3 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "gr": {
+      "react": "SUCCESS (2 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "cy": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "tr": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "il": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ae": {
+      "react": "SUCCESS (13 jobs)",
+      "node js": "SUCCESS (8 jobs)"
+    },
+    "sa": {
+      "react": "SUCCESS (7 jobs)",
+      "node js": "SUCCESS (6 jobs)"
+    },
+    "qa": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "kw": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "bh": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "om": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "eg": {
+      "react": "SUCCESS (25 jobs)",
+      "node js": "SUCCESS (13 jobs)"
+    },
+    "jo": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "lb": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "pk": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "in": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (27 jobs)"
+    },
+    "sg": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (30 jobs)"
+    },
+    "my": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (30 jobs)"
+    },
+    "ph": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (12 jobs)"
+    },
+    "hk": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "id": {
+      "react": "SUCCESS (14 jobs)",
+      "node js": "SUCCESS (3 jobs)"
+    },
+    "th": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "vn": {
+      "react": "SUCCESS (23 jobs)",
+      "node js": "SUCCESS (16 jobs)"
+    },
+    "jp": {
+      "react": "SUCCESS (12 jobs)",
+      "node js": "SUCCESS (3 jobs)"
+    },
+    "kr": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "cn": {
+      "react": "SUCCESS (2 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "tw": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "mx": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (17 jobs)"
+    },
+    "ar": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "cl": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "co": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "pe": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "SUCCESS (1 jobs)"
+    },
+    "cr": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "pa": {
+      "react": "SUCCESS (5 jobs)",
+      "node js": "SUCCESS (2 jobs)"
+    },
+    "uy": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ve": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ec": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "za": {
+      "react": "SUCCESS (1 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ng": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ke": {
+      "react": "EMPTY_200 (0 jobs)",
+      "node js": "EMPTY_200 (0 jobs)"
+    },
+    "ie": {
+      "react": "SUCCESS (30 jobs)",
+      "node js": "SUCCESS (6 jobs)"
+    }
+  }
+}
