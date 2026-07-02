@@ -3,42 +3,41 @@ const { fetchWithRetry } = require('./utils');
 
 const JOOBLE_API_KEY = process.env.JOOBLE_API_KEY;
 
-const JOOBLE_LOCATION_MAP = {
-  us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
-  za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
-  ph: 'Philippines', pk: 'Pakistan', ae: 'United Arab Emirates', sa: 'Saudi Arabia',
-  ie: 'Ireland', fr: 'France', de: 'Germany', es: 'Spain', it: 'Italy', nl: 'Netherlands',
-  be: 'Belgium', ch: 'Switzerland', at: 'Austria', se: 'Sweden', no: 'Norway',
-  dk: 'Denmark', fi: 'Finland', pl: 'Poland', cz: 'Czech Republic', hu: 'Hungary',
-  ro: 'Romania', bg: 'Bulgaria', gr: 'Greece', tr: 'Turkey', br: 'Brazil',
-  mx: 'Mexico', ar: 'Argentina', cl: 'Chile', co: 'Colombia', pe: 'Peru',
-  ve: 'Venezuela', uy: 'Uruguay', ec: 'Ecuador', cr: 'Costa Rica', pa: 'Panama',
-  jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', cn: 'China',
-  ru: 'Russia', ua: 'Ukraine', by: 'Belarus', kz: 'Kazakhstan', il: 'Israel',
-  eg: 'Egypt', ng: 'Nigeria', ke: 'Kenya', gh: 'Ghana', ma: 'Morocco',
-  id: 'Indonesia', vn: 'Vietnam',
-};
+// const JOOBLE_LOCATION_MAP = {
+//   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
+//   za: 'South Africa', in: 'India', sg: 'Singapore', my: 'Malaysia', th: 'Thailand',
+//   ph: 'Philippines', pk: 'Pakistan', ae: 'United Arab Emirates', sa: 'Saudi Arabia',
+//   ie: 'Ireland', fr: 'France', de: 'Germany', es: 'Spain', it: 'Italy', nl: 'Netherlands',
+//   be: 'Belgium', ch: 'Switzerland', at: 'Austria', se: 'Sweden', no: 'Norway',
+//   dk: 'Denmark', fi: 'Finland', pl: 'Poland', cz: 'Czech Republic', hu: 'Hungary',
+//   ro: 'Romania', bg: 'Bulgaria', gr: 'Greece', tr: 'Turkey', br: 'Brazil',
+//   mx: 'Mexico', ar: 'Argentina', cl: 'Chile', co: 'Colombia', pe: 'Peru',
+//   ve: 'Venezuela', uy: 'Uruguay', ec: 'Ecuador', cr: 'Costa Rica', pa: 'Panama',
+//   jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', cn: 'China',
+//   ru: 'Russia', ua: 'Ukraine', by: 'Belarus', kz: 'Kazakhstan', il: 'Israel',
+//   eg: 'Egypt', ng: 'Nigeria', ke: 'Kenya', gh: 'Ghana', ma: 'Morocco',
+//   id: 'Indonesia', vn: 'Vietnam',
+// };
 
 const MAX_PAGES = 20;
 
-const JOOBLE_REGIONS = [
-  'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
-  'ph', 'pk', 'ae', 'sa', 'ie', 'fr', 'de', 'es', 'it', 'nl',
-  'be', 'ch', 'at', 'se', 'no', 'dk', 'fi', 'pl', 'cz', 'hu',
-  'ro', 'bg', 'gr', 'tr', 'br', 'mx', 'ar', 'cl', 'co', 'pe',
-  've', 'uy', 'ec', 'cr', 'pa', 'jp', 'kr', 'hk', 'tw', 'cn',
-  'ru', 'ua', 'by', 'kz', 'il', 'eg', 'ng', 'ke', 'gh', 'ma',
-  'id', 'vn',
-];
-
-// const JOOBLE_LOCATION_MAP = {
-//   us: 'United States', uk: 'United Kingdom', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
-//   za: 'South Africa',
-// };
-
 // const JOOBLE_REGIONS = [
-//   'us', 'uk', 'ca', 'au', 'nz', 'za',
+//   'us', 'uk', 'ca', 'au', 'nz', 'za', 'in', 'sg', 'my', 'th',
+//   'ph', 'pk', 'ae', 'sa', 'ie', 'fr', 'de', 'es', 'it', 'nl',
+//   'be', 'ch', 'at', 'se', 'no', 'dk', 'fi', 'pl', 'cz', 'hu',
+//   'ro', 'bg', 'gr', 'tr', 'br', 'mx', 'ar', 'cl', 'co', 'pe',
+//   've', 'uy', 'ec', 'cr', 'pa', 'jp', 'kr', 'hk', 'tw', 'cn',
+//   'ru', 'ua', 'by', 'kz', 'il', 'eg', 'ng', 'ke', 'gh', 'ma',
+//   'id', 'vn',
 // ];
+
+const JOOBLE_LOCATION_MAP = {
+  us: 'United States', uk: 'United Kingdom', ca: 'Canada',
+};
+
+const JOOBLE_REGIONS = [
+  'us',
+];
 
 function buildSlug(title, company) {
   return `${title} ${company}`

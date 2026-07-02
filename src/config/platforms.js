@@ -77,7 +77,7 @@ const atsPlatforms = {
 const aggregatorConfig = {
   keywords: [
     'react',
-    'node js',
+    // 'Node.js',
   ],
   regions: ['us', 'uk'],
   excludedCompanies: ['twilio', 'stripe', 'gitlab', 'microsoft', 'google', 'amazon', 'meta', 'apple'],

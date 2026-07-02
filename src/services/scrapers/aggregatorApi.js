@@ -2,6 +2,8 @@ const { aggregatorConfig } = require('../../config/platforms');
 const { shouldExcludeCompany } = require('../../../scripts/lib/company-filter');
 const { fetchAdzunaJobs } = require('./adzunaModule');
 const { fetchJoobleJobs } = require('./joobleModule');
+const { fetchCareerjetJobs } = require('./careerjetModule');
+const { fetchReedJobs } = require('./reedModule');
 
 const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
 const ADZUNA_API_KEY = process.env.ADZUNA_API_KEY;
@@ -98,31 +100,59 @@ async function fetchRealJobs() {
   for (const keyword of keywords) {
     let regionKeywordCount = 0;
 
-    if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
-      try {
-        const jobs = await fetchAdzunaJobs(keyword, undefined, seenFingerprints);
-        const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
-        if (filtered.length < jobs.length) {
-          console.log(`[AGG] Adzuna ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
-        }
-        allJobs.push(...filtered);
-        regionKeywordCount += filtered.length;
-      } catch (err) {
-        console.error(`[AGG] Adzuna ${keyword} failed: ${err.message}`);
-      }
-    }
+    // if (ADZUNA_APP_ID && ADZUNA_API_KEY) {
+    //   try {
+    //     const jobs = await fetchAdzunaJobs(keyword, undefined, seenFingerprints);
+    //     const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+    //     if (filtered.length < jobs.length) {
+    //       console.log(`[AGG] Adzuna ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+    //     }
+    //     allJobs.push(...filtered);
+    //     regionKeywordCount += filtered.length;
+    //   } catch (err) {
+    //     console.error(`[AGG] Adzuna ${keyword} failed: ${err.message}`);
+    //   }
+    // }
 
-    if (JOOBLE_API_KEY) {
+    // if (JOOBLE_API_KEY) {
+    //   try {
+    //     const jobs = await fetchJoobleJobs(keyword, undefined, seenFingerprints);
+    //     const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+    //     if (filtered.length < jobs.length) {
+    //       console.log(`[AGG] Jooble ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+    //     }
+    //     allJobs.push(...filtered);
+    //     regionKeywordCount += filtered.length;
+    //   } catch (err) {
+    //     console.error(`[AGG] Jooble ${keyword} failed: ${err.message}`);
+    //   }
+    // }
+
+    // if (process.env.CAREERJET_API_KEY) {
+    //   try {
+    //     const jobs = await fetchCareerjetJobs(keyword, undefined, seenFingerprints);
+    //     const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
+    //     if (filtered.length < jobs.length) {
+    //       console.log(`[AGG] Careerjet ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+    //     }
+    //     allJobs.push(...filtered);
+    //     regionKeywordCount += filtered.length;
+    //   } catch (err) {
+    //     console.error(`[AGG] Careerjet ${keyword} failed: ${err.message}`);
+    //   }
+    // }
+
+    if (process.env.REED_API_KEY) {
       try {
-        const jobs = await fetchJoobleJobs(keyword, undefined, seenFingerprints);
+        const jobs = await fetchReedJobs(keyword, seenFingerprints);
         const filtered = jobs.filter(j => !shouldExcludeCompany(j.company));
         if (filtered.length < jobs.length) {
-          console.log(`[AGG] Jooble ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
+          console.log(`[AGG] Reed ${keyword}: excluded ${jobs.length - filtered.length} jobs`);
         }
         allJobs.push(...filtered);
         regionKeywordCount += filtered.length;
       } catch (err) {
-        console.error(`[AGG] Jooble ${keyword} failed: ${err.message}`);
+        console.error(`[AGG] Reed ${keyword} failed: ${err.message}`);
       }
     }
   }
@@ -131,7 +161,7 @@ async function fetchRealJobs() {
 }
 
 function hasAnyApiKey() {
-  return (ADZUNA_APP_ID && ADZUNA_API_KEY) || JOOBLE_API_KEY;
+  return (ADZUNA_APP_ID && ADZUNA_API_KEY) || JOOBLE_API_KEY || process.env.CAREERJET_API_KEY || process.env.REED_API_KEY;
 }
 
 async function fetchJobs() {

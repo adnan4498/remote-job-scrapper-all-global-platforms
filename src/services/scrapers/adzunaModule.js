@@ -9,15 +9,15 @@ const MAX_PAGES = 3;
 const RESULTS_PER_PAGE = 50;
 const MAX_DAYS_OLD = 3;
 
-const ADZUNA_REGIONS = [
-  'us', 'gb', 'au', 'ca', 'in', 'za', 'nl', 'fr',
-  'de', 'es', 'it', 'at', 'be', 'br', 'mx', 'nz',
-  'pl', 'sg',
-];
-
 // const ADZUNA_REGIONS = [
 //   'us', 'gb', 'au', 'ca', 'in', 'za', 'nl', 'fr',
+//   'de', 'es', 'it', 'at', 'be', 'br', 'mx', 'nz',
+//   'pl', 'sg',
 // ];
+
+const ADZUNA_REGIONS = [
+  'us',
+];
 
 function buildSlug(title, company) {
   return `${title} ${company}`

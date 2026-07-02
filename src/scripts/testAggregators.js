@@ -7,6 +7,9 @@ require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
 const axios = require('axios');
 const fs = require('fs').promises;
 
+const { fetchCareerjetJobs } = require('../services/scrapers/careerjetModule');
+const { fetchReedJobs } = require('../services/scrapers/reedModule');
+
 const AGGREGATOR_CONFIG = {
   adzuna: {
     routingParadigm: 'subdomain',
@@ -56,7 +59,10 @@ const REGION_ACCEPT_LANG_MAP = {
 };
 
 const REGIONS = Object.keys(REGION_ACCEPT_LANG_MAP);
-const KEYWORDS = ['react', 'node js'];
+const KEYWORDS = [
+  'react', 
+  // 'Node.js'
+];
 
 // Fixed double 'src' path compilation error
 const OUTPUT_FILE = path.resolve(__dirname, '..', 'config', 'aggregator-test-results.json');
@@ -246,6 +252,72 @@ async function testAggregator(aggregator, config, region, keyword) {
   return testHttpAggregator(aggregator, config, region, keyword);
 }
 
+async function testCareerjet() {
+  if (!process.env.CAREERJET_API_KEY) {
+    console.log('[TEST:CAREERJET] SKIP — CAREERJET_API_KEY not configured');
+    return;
+  }
+
+  const keyword = 'React';
+  const fpSet = new Set();
+
+  console.log('\n=== Careerjet Test (keyword: React) ===');
+  try {
+    const jobs = await fetchCareerjetJobs(keyword, ['gb', 'us'], fpSet);
+    console.log(`[TEST:CAREERJET] Total jobs returned: ${jobs.length}`);
+
+    if (jobs.length > 0) {
+      console.log('[TEST:CAREERJET] First job sample:');
+      const sample = jobs[0];
+      console.log(JSON.stringify({
+        title: sample.title,
+        company: sample.company,
+        platformSource: sample.platformSource,
+        slug: sample.slug,
+        source: sample.source,
+        rawId: sample.rawId,
+        postedAt: sample.postedAt,
+        countryCode: sample.countryCode,
+      }, null, 2));
+    }
+  } catch (err) {
+    console.error(`[TEST:CAREERJET] Failed: ${err.message}`);
+  }
+}
+
+async function testReed() {
+  if (!process.env.REED_API_KEY) {
+    console.log('[TEST:REED] SKIP — REED_API_KEY not configured');
+    return;
+  }
+
+  const keyword = 'React';
+  const fpSet = new Set();
+
+  console.log('\n=== Reed.co.uk Test (keyword: React) ===');
+  try {
+    const jobs = await fetchReedJobs(keyword, fpSet);
+    console.log(`[TEST:REED] Total jobs returned: ${jobs.length}`);
+
+    if (jobs.length > 0) {
+      console.log('[TEST:REED] First job sample:');
+      const sample = jobs[0];
+      console.log(JSON.stringify({
+        title: sample.title,
+        company: sample.company,
+        platformSource: sample.platformSource,
+        slug: sample.slug,
+        source: sample.source,
+        rawId: sample.rawId,
+        postedAt: sample.postedAt,
+        countryCode: sample.countryCode,
+      }, null, 2));
+    }
+  } catch (err) {
+    console.error(`[TEST:REED] Failed: ${err.message}`);
+  }
+}
+
 async function run() {
   console.log('=== Aggregator Regional Matrix Test ===\n');
   
@@ -255,6 +327,14 @@ async function run() {
   console.log('ADZUNA_API_KEY Status:', !!(process.env.ADZUNA_API_KEY || process.env.ADZUNA_APP_KEY));
   console.log('JOOBLE_API_KEY Status:', !!process.env.JOOBLE_API_KEY);
   console.log('====================================\n');
+
+  console.log('\n=== New Aggregator Module Tests ===');
+  console.log('CAREERJET_KEY Type:', typeof process.env.CAREERJET_API_KEY);
+  console.log('REED_KEY Type:', typeof process.env.REED_API_KEY);
+
+  await testCareerjet();
+  await testReed();
+  process.exit(0);
 
   console.log(`Aggregators: ${Object.keys(AGGREGATOR_CONFIG).join(', ')}`);
   console.log(`Regions: ${REGIONS.length}`);

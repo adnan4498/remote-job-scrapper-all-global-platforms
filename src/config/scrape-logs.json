@@ -1572,5 +1572,198 @@
       }
     ],
     "platforms": {}
+  },
+  {
+    "runId": 7,
+    "timestamp": "Thursday, July 2, 2026 — 10:22 PM",
+    "shortTimestamp": "7/2/2026 10:22 PM",
+    "startedAt": "2026-07-02T17:22:22.394Z",
+    "finishedAt": null,
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [],
+    "platforms": {}
+  },
+  {
+    "runId": 8,
+    "timestamp": "Thursday, July 2, 2026 — 10:27 PM",
+    "shortTimestamp": "7/2/2026 10:27 PM",
+    "startedAt": "2026-07-02T17:27:25.002Z",
+    "finishedAt": "2026-07-02T17:37:23.197Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 204,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 9,
+    "timestamp": "Thursday, July 2, 2026 — 11:47 PM",
+    "shortTimestamp": "7/2/2026 11:47 PM",
+    "startedAt": "2026-07-02T18:47:50.069Z",
+    "finishedAt": "2026-07-02T18:51:51.281Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 106,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 10,
+    "timestamp": "Thursday, July 2, 2026 — 11:55 PM",
+    "shortTimestamp": "7/2/2026 11:55 PM",
+    "startedAt": "2026-07-02T18:55:41.163Z",
+    "finishedAt": null,
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [],
+    "platforms": {}
+  },
+  {
+    "runId": 11,
+    "timestamp": "Thursday, July 2, 2026 — 11:57 PM",
+    "shortTimestamp": "7/2/2026 11:57 PM",
+    "startedAt": "2026-07-02T18:57:42.738Z",
+    "finishedAt": "2026-07-02T19:00:19.773Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 79,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 12,
+    "timestamp": "Friday, July 3, 2026 — 12:04 AM",
+    "shortTimestamp": "7/3/2026 12:04 AM",
+    "startedAt": "2026-07-02T19:04:13.408Z",
+    "finishedAt": "2026-07-02T19:04:29.755Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 48,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 13,
+    "timestamp": "Friday, July 3, 2026 — 12:06 AM",
+    "shortTimestamp": "7/3/2026 12:06 AM",
+    "startedAt": "2026-07-02T19:06:07.632Z",
+    "finishedAt": "2026-07-02T19:06:22.094Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 50,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 14,
+    "timestamp": "Friday, July 3, 2026 — 12:14 AM",
+    "shortTimestamp": "7/3/2026 12:14 AM",
+    "startedAt": "2026-07-02T19:14:24.512Z",
+    "finishedAt": "2026-07-02T19:14:41.693Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 54,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 15,
+    "timestamp": "Friday, July 3, 2026 — 12:18 AM",
+    "shortTimestamp": "7/3/2026 12:18 AM",
+    "startedAt": "2026-07-02T19:18:14.315Z",
+    "finishedAt": "2026-07-02T19:18:15.775Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 4,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 16,
+    "timestamp": "Friday, July 3, 2026 — 12:22 AM",
+    "shortTimestamp": "7/3/2026 12:22 AM",
+    "startedAt": "2026-07-02T19:22:48.812Z",
+    "finishedAt": "2026-07-02T19:22:51.450Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 4,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
+  },
+  {
+    "runId": 17,
+    "timestamp": "Friday, July 3, 2026 — 12:29 AM",
+    "shortTimestamp": "7/3/2026 12:29 AM",
+    "startedAt": "2026-07-02T19:29:04.779Z",
+    "finishedAt": "2026-07-02T19:29:11.397Z",
+    "description": "Full platform scraping run",
+    "totalJobs": 0,
+    "entries": [
+      {
+        "platform": "Aggregator API",
+        "region": "all",
+        "keyword": "all",
+        "count": 23,
+        "isMeta": true
+      }
+    ],
+    "platforms": {}
   }
 ]
