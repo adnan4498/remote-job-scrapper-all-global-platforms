@@ -95,14 +95,23 @@ async function fetchPage(keyword, region, page) {
   const jobs = response.data && response.data.jobs;
   if (!Array.isArray(jobs) || jobs.length === 0) return [];
 
-  const targetCountryName = (JOOBLE_LOCATION_MAP[region.toLowerCase()] || '').toLowerCase();
+  const currentCountryName = (JOOBLE_LOCATION_MAP[region.toLowerCase()] || '').toLowerCase();
 
   return jobs
     .map((raw) => {
       const jobLocation = (raw.location || '').toLowerCase();
-      if (targetCountryName && !jobLocation.includes(targetCountryName)) {
-        return null;
+
+      if (!jobLocation || jobLocation === 'remote' || jobLocation === 'anywhere') {
+        return normalizeJoobleResult(raw, region);
       }
+
+      for (const [key, value] of Object.entries(JOOBLE_LOCATION_MAP)) {
+        const checkCountryName = value.toLowerCase();
+        if (key.toLowerCase() !== region.toLowerCase() && jobLocation.includes(checkCountryName)) {
+          return null;
+        }
+      }
+
       return normalizeJoobleResult(raw, region);
     })
     .filter(Boolean);

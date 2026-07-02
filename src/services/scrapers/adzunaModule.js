@@ -56,18 +56,36 @@ function normalizeAdzunaResult(raw, region) {
 }
 
 async function fetchPage(keyword, region, page) {
-  const encodedKeyword = encodeURIComponent(keyword);
-  const url = `${BASE_URL}/${region}/search/${page}?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_API_KEY}&what=${encodedKeyword}&where=remote&results_per_page=${RESULTS_PER_PAGE}&max_days_old=${MAX_DAYS_OLD}&content-type=application/json`;
+  // Use a clean object for URLSearchParams to ensure valid encoding
+  const params = new URLSearchParams({
+    app_id: ADZUNA_APP_ID,
+    app_key: ADZUNA_API_KEY,
+    what: keyword,
+    results_per_page: RESULTS_PER_PAGE.toString(),
+    max_days_old: MAX_DAYS_OLD.toString()
+  });
+
+  const url = `${BASE_URL}/${region}/search/${page}?${params.toString()}`;
 
   const response = await fetchWithRetry(
     () => axios.get(url, { timeout: 30000 }),
     `Adzuna/${region}/${keyword}/page${page}`
   );
 
-  const results = response.data && response.data.results;
-  if (!Array.isArray(results) || results.length === 0) return [];
+  // Safety: check if response.data and response.data.results exist
+  if (!response.data || !Array.isArray(response.data.results)) {
+    console.warn(`[ADZUNA] ${region}/${keyword} page ${page}: No results array found.`);
+    return [];
+  }
 
-  return results.map((raw) => normalizeAdzunaResult(raw, region));
+  return response.data.results
+    .filter(raw => {
+      const desc = (raw.description || '').toLowerCase();
+      const title = (raw.title || '').toLowerCase();
+      // Manual remote filter
+      return desc.includes('remote') || title.includes('remote');
+    })
+    .map((raw) => normalizeAdzunaResult(raw, region));
 }
 
 async function fetchAdzunaJobs(keyword, regions = ADZUNA_REGIONS) {
